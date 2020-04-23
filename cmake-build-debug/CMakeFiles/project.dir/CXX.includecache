@@ -1,0 +1,42 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/snumbrikvolgo/Рабочий стол/project/main.cpp
+iostream
+-
+SFML/Graphics.hpp
+-
+sstream
+-
+player.h
+/home/snumbrikvolgo/Рабочий стол/project/player.h
+mission.h
+/home/snumbrikvolgo/Рабочий стол/project/mission.h
+map.h
+/home/snumbrikvolgo/Рабочий стол/project/map.h
+view.h
+/home/snumbrikvolgo/Рабочий стол/project/view.h
+
+/home/snumbrikvolgo/Рабочий стол/project/map.h
+SFML/Graphics.hpp
+-
+
+/home/snumbrikvolgo/Рабочий стол/project/mission.h
+string.h
+-
+iostream
+-
+
+/home/snumbrikvolgo/Рабочий стол/project/player.h
+SFML/Graphics.hpp
+-
+
+/home/snumbrikvolgo/Рабочий стол/project/view.h
+SFML/Graphics.hpp
+-
+

@@ -1,0 +1,3 @@
+/home/snumbrikvolgo/Рабочий стол/project/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/snumbrikvolgo/Рабочий стол/project/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/snumbrikvolgo/Рабочий стол/project/cmake-build-debug/CMakeFiles/project.dir
