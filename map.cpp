@@ -1,47 +1,113 @@
-//
-// Created by snumbrikvolgo on 23.04.20.
-//
 #include "map.h"
+#include "entity.h"
+
 sf::String TileMap[HEIGHT_MAP] = {
-        "0000000000000000000000000000000000000000",
-        "0                                      0",
-        "0                                      0",
-        "0                                      0",
-        "0                                      0",
-        "0                                      0",
-        "0                                      0",
-        "0                                      0",
-        "0                                      0",
-        "0                                      0",
-        "0                                      0",
-        "0                                      0",
-        "0                                      0",
-        "0                                      0",
-        "0                                      0",
-        "0                                      0",
-        "0                                      0",
-        "0                                      0",
-        "0                                      0",
-        "0                                      0",
-        "0              s    0000               0",
-        "0           000000000000               0",
-        "0           000000000000               0",
-        "0   f    h  000000000000               0",
-        "0000000000000000000000000000000000000000",
+        "000000000000000000000000000000000000000000000000000000000000",
+        "0                                                          0",
+        "05555556                                                   0",
+        "0                                                          0",
+        "0                                   4556                   0",
+        "0                             4556                         0",
+        "0                                                          0",
+        "0   m                                                4555550",
+        "0  4555556                                                 0",
+        "0                                                          0",
+        "0                 4556                                     0",
+        "0                                                          0",
+        "0                             45556                        0",
+        "0                         m                                0",
+        "0                      4556                                0",
+        "0                                                          0",
+        "0                                                          0",
+        "0                                                          0",
+        "0                 m2113                                    0",
+        "0           211111110003                                   0",
+        "0           000000000000                                   0",
+        "0          200000000000003    2113                 m       0",
+        "011111111110000000000000001111000001111111111111111111111110",
+        "000000000000000000000000000000000000000000000000000000000000"
 };
 
-void randomMapGenerate(){//рандомно расставляем камни
-    int randomElementX = 0;//случайный элемент по горизонтали
-    int randomElementY = 0;//случ эл-т по вертикали
-    srand(time(0));//рандом
-    int countStone = 2;//количество камней
-    while (countStone>0){
-        randomElementX = 1 + rand() % (WIDTH_MAP - 1);//рандомное по иксу от 1 до ширина карты-1, чтобы не получать числа бордюра карты
-        randomElementY = 1 + rand() % (HEIGHT_MAP - 1);//по игреку так же
-        if (TileMap[randomElementY][randomElementX] == ' ')   {//если встретили символ пробел,
-            TileMap[randomElementY][randomElementX] = 's'; //то ставим туда камень.
-            //std::cout << "coordinate of Stone X:" << randomElementX << "\n" << "coordinate of Stone Y:" << randomElementY << "\n\n";
-            countStone--;
+Map::Map()
+{
+    width = WIDTH_MAP;
+    height = HEIGHT_MAP;
+
+
+    tileSize = TILE_SIZE;
+    tiledMap = TileMap;
+
+    background.loadFromFile("images/BG/BG.png");
+    bg.setTexture(background);
+    bg.setScale(1.9f,1.0f);
+
+    mushroom.loadFromFile("images/mush.png");
+    mush.setTexture(mushroom);
+
+    map_texture.loadFromFile("images/map3_1.png");
+    sprite_.setTexture(map_texture);
+
+}
+
+void Map::draw(sf::RenderWindow &window)
+{
+    window.draw(bg);
+    for(int i = 0; i < width; i++)
+        for(int j = 0; j < height; j++)
+        {
+            sprite_.setTextureRect(sf::IntRect(/*i * tileSize_*/ 0, /*j * tileSize_*/ 0, 0, 0));
+            sprite_.setPosition(i * tileSize, j * tileSize);
+            mush.setTextureRect(sf::IntRect(/*i * tileSize_*/ 0, /*j * tileSize_*/ 0, 0, 0));
+            mush.setPosition(i * tileSize, j * tileSize);
+            window.draw(sprite_);
+            window.draw(mush);
+
+            switch(tiledMap[j][i])
+            {
+                case ' ':
+                    sprite_.setTextureRect(sf::IntRect(0, 0, 0, 0));
+                    break;
+                case 'm':
+                    mush.setTextureRect(sf::IntRect(0, 0, TILE_SIZE, TILE_SIZE - 1));
+                    break;
+                case 's':
+                    sprite_.setTextureRect(sf::IntRect(TILE_SIZE * 2, 0, TILE_SIZE, TILE_SIZE));
+                    break;
+                case 'r':
+                    sprite_.setTextureRect(sf::IntRect(TILE_SIZE * 4, 0, TILE_SIZE, TILE_SIZE));
+                    break;
+                case 'c':  //wave
+                    sprite_.setTextureRect(sf::IntRect(TILE_SIZE * 7, TILE_SIZE, TILE_SIZE, TILE_SIZE));
+                    break;
+                case 'w':   //water
+                    sprite_.setTextureRect(sf::IntRect(TILE_SIZE * 8, TILE_SIZE, TILE_SIZE, TILE_SIZE));
+                    break;
+                case '6':
+                    sprite_.setTextureRect(sf::IntRect(TILE_SIZE * 5, TILE_SIZE, TILE_SIZE, TILE_SIZE));
+                    break;
+                case '5':
+                    sprite_.setTextureRect(sf::IntRect(TILE_SIZE * 4, TILE_SIZE, TILE_SIZE, TILE_SIZE));
+                    break;
+                case '4':
+                    sprite_.setTextureRect(sf::IntRect(TILE_SIZE * 3, TILE_SIZE, TILE_SIZE, TILE_SIZE));
+                    break;
+                case '0': //boundaries
+                    sprite_.setTextureRect(sf::IntRect(TILE_SIZE*4, 0, TILE_SIZE, TILE_SIZE));
+                    break;
+                case '1': //top_surface
+                    sprite_.setTextureRect(sf::IntRect(TILE_SIZE*1, 0, TILE_SIZE, TILE_SIZE));
+                    break;
+                case '2': //top_surface
+                    sprite_.setTextureRect(sf::IntRect(TILE_SIZE*0, 0, TILE_SIZE, TILE_SIZE));
+                    break;
+                case '3': //top_surface
+                    sprite_.setTextureRect(sf::IntRect(TILE_SIZE*2, 0, TILE_SIZE, TILE_SIZE));
+                    break;
+
+                default:
+                    break;
+            }
+            window.draw(mush);
+            window.draw(sprite_);
         }
-    }
 }

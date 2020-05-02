@@ -10,12 +10,17 @@ using namespace sf;
 
 class Player : public Entity {
 public:
-    enum { left, right, up, down, jump, stay } state;//добавляем тип перечисления - состояние объекта
-    int playerScore;//эта переменная может быть только у игрока
+    enum { left, right, up, down, jump, stay } state;
+
+
     Player(Image &image, float X, float Y,int W,int H,String Name);
-    void control();
+
+    int score;
+
+    void control(float time);
     void checkCollisionWithMap(float Dx, float Dy);
     void update(float time);
+    void death(float time);
 };
 
 

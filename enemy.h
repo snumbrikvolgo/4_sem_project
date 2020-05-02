@@ -12,6 +12,8 @@ public:
     Enemy(Image &image, float X, float Y,int W,int H,String Name);
     void checkCollisionWithMap(float Dx, float Dy);
     void update(float time);
+
+    float moveTimer;
 };
 
 #endif //PROJECT_ENEMY_H

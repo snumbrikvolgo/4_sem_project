@@ -3,6 +3,7 @@
 #pragma once
 #include <string.h>
 #include <iostream>
+
 int getCurrentMission(int x)//ф-ция номера миссия, которая меняет номер миссии, в зависимости от координаты игрока Х (сюда будем передавать эту координату)
 {
     int mission = 0;

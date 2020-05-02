@@ -7,14 +7,16 @@
 using namespace sf;
 class Entity {
 public:
-    float dx, dy, x, y, speed,moveTimer;
+    float dx, dy, x, y, speed;
     int w,h,health;
     bool life, isMove, onGround;
     Texture texture;
     Sprite sprite;
     String name;
+    float currentFrame;
 
     Entity(Image &image, float X, float Y,int W,int H,String Name);
     virtual void update(float time) = 0;
+    FloatRect getRect();
 };
 #endif //PROJECT_ENTITY_H
