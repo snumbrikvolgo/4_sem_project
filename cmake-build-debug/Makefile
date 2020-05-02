@@ -123,6 +123,33 @@ project/fast:
 	$(MAKE) -f CMakeFiles/project.dir/build.make CMakeFiles/project.dir/build
 .PHONY : project/fast
 
+enemy.o: enemy.cpp.o
+
+.PHONY : enemy.o
+
+# target to build an object file
+enemy.cpp.o:
+	$(MAKE) -f CMakeFiles/project.dir/build.make CMakeFiles/project.dir/enemy.cpp.o
+.PHONY : enemy.cpp.o
+
+enemy.i: enemy.cpp.i
+
+.PHONY : enemy.i
+
+# target to preprocess a source file
+enemy.cpp.i:
+	$(MAKE) -f CMakeFiles/project.dir/build.make CMakeFiles/project.dir/enemy.cpp.i
+.PHONY : enemy.cpp.i
+
+enemy.s: enemy.cpp.s
+
+.PHONY : enemy.s
+
+# target to generate assembly for a file
+enemy.cpp.s:
+	$(MAKE) -f CMakeFiles/project.dir/build.make CMakeFiles/project.dir/enemy.cpp.s
+.PHONY : enemy.cpp.s
+
 entity.o: entity.cpp.o
 
 .PHONY : entity.o
@@ -177,6 +204,33 @@ main.cpp.s:
 	$(MAKE) -f CMakeFiles/project.dir/build.make CMakeFiles/project.dir/main.cpp.s
 .PHONY : main.cpp.s
 
+map.o: map.cpp.o
+
+.PHONY : map.o
+
+# target to build an object file
+map.cpp.o:
+	$(MAKE) -f CMakeFiles/project.dir/build.make CMakeFiles/project.dir/map.cpp.o
+.PHONY : map.cpp.o
+
+map.i: map.cpp.i
+
+.PHONY : map.i
+
+# target to preprocess a source file
+map.cpp.i:
+	$(MAKE) -f CMakeFiles/project.dir/build.make CMakeFiles/project.dir/map.cpp.i
+.PHONY : map.cpp.i
+
+map.s: map.cpp.s
+
+.PHONY : map.s
+
+# target to generate assembly for a file
+map.cpp.s:
+	$(MAKE) -f CMakeFiles/project.dir/build.make CMakeFiles/project.dir/map.cpp.s
+.PHONY : map.cpp.s
+
 player.o: player.cpp.o
 
 .PHONY : player.o
@@ -204,6 +258,33 @@ player.cpp.s:
 	$(MAKE) -f CMakeFiles/project.dir/build.make CMakeFiles/project.dir/player.cpp.s
 .PHONY : player.cpp.s
 
+view.o: view.cpp.o
+
+.PHONY : view.o
+
+# target to build an object file
+view.cpp.o:
+	$(MAKE) -f CMakeFiles/project.dir/build.make CMakeFiles/project.dir/view.cpp.o
+.PHONY : view.cpp.o
+
+view.i: view.cpp.i
+
+.PHONY : view.i
+
+# target to preprocess a source file
+view.cpp.i:
+	$(MAKE) -f CMakeFiles/project.dir/build.make CMakeFiles/project.dir/view.cpp.i
+.PHONY : view.cpp.i
+
+view.s: view.cpp.s
+
+.PHONY : view.s
+
+# target to generate assembly for a file
+view.cpp.s:
+	$(MAKE) -f CMakeFiles/project.dir/build.make CMakeFiles/project.dir/view.cpp.s
+.PHONY : view.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -213,15 +294,24 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... project"
+	@echo "... enemy.o"
+	@echo "... enemy.i"
+	@echo "... enemy.s"
 	@echo "... entity.o"
 	@echo "... entity.i"
 	@echo "... entity.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... map.o"
+	@echo "... map.i"
+	@echo "... map.s"
 	@echo "... player.o"
 	@echo "... player.i"
 	@echo "... player.s"
+	@echo "... view.o"
+	@echo "... view.i"
+	@echo "... view.s"
 .PHONY : help
 
 

@@ -4,9 +4,12 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
+  "/home/snumbrikvolgo/Рабочий стол/project/enemy.cpp" "/home/snumbrikvolgo/Рабочий стол/project/cmake-build-debug/CMakeFiles/project.dir/enemy.cpp.o"
   "/home/snumbrikvolgo/Рабочий стол/project/entity.cpp" "/home/snumbrikvolgo/Рабочий стол/project/cmake-build-debug/CMakeFiles/project.dir/entity.cpp.o"
   "/home/snumbrikvolgo/Рабочий стол/project/main.cpp" "/home/snumbrikvolgo/Рабочий стол/project/cmake-build-debug/CMakeFiles/project.dir/main.cpp.o"
+  "/home/snumbrikvolgo/Рабочий стол/project/map.cpp" "/home/snumbrikvolgo/Рабочий стол/project/cmake-build-debug/CMakeFiles/project.dir/map.cpp.o"
   "/home/snumbrikvolgo/Рабочий стол/project/player.cpp" "/home/snumbrikvolgo/Рабочий стол/project/cmake-build-debug/CMakeFiles/project.dir/player.cpp.o"
+  "/home/snumbrikvolgo/Рабочий стол/project/view.cpp" "/home/snumbrikvolgo/Рабочий стол/project/cmake-build-debug/CMakeFiles/project.dir/view.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

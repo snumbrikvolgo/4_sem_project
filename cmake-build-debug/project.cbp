@@ -84,6 +84,12 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/home/snumbrikvolgo/Рабочий стол/project/enemy.cpp">
+			<Option target="project"/>
+		</Unit>
+		<Unit filename="/home/snumbrikvolgo/Рабочий стол/project/enemy.h">
+			<Option target="project"/>
+		</Unit>
 		<Unit filename="/home/snumbrikvolgo/Рабочий стол/project/entity.cpp">
 			<Option target="project"/>
 		</Unit>
@@ -91,6 +97,9 @@
 			<Option target="project"/>
 		</Unit>
 		<Unit filename="/home/snumbrikvolgo/Рабочий стол/project/main.cpp">
+			<Option target="project"/>
+		</Unit>
+		<Unit filename="/home/snumbrikvolgo/Рабочий стол/project/map.cpp">
 			<Option target="project"/>
 		</Unit>
 		<Unit filename="/home/snumbrikvolgo/Рабочий стол/project/map.h">
@@ -103,6 +112,9 @@
 			<Option target="project"/>
 		</Unit>
 		<Unit filename="/home/snumbrikvolgo/Рабочий стол/project/player.h">
+			<Option target="project"/>
+		</Unit>
+		<Unit filename="/home/snumbrikvolgo/Рабочий стол/project/view.cpp">
 			<Option target="project"/>
 		</Unit>
 		<Unit filename="/home/snumbrikvolgo/Рабочий стол/project/view.h">

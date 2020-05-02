@@ -6,6 +6,28 @@
 
 #IncludeRegexTransform: 
 
+/home/snumbrikvolgo/Рабочий стол/project/enemy.cpp
+enemy.h
+/home/snumbrikvolgo/Рабочий стол/project/enemy.h
+map.h
+/home/snumbrikvolgo/Рабочий стол/project/map.h
+iostream
+-
+
+/home/snumbrikvolgo/Рабочий стол/project/enemy.h
+entity.h
+/home/snumbrikvolgo/Рабочий стол/project/entity.h
+
+/home/snumbrikvolgo/Рабочий стол/project/entity.cpp
+SFML/Graphics.hpp
+-
+entity.h
+/home/snumbrikvolgo/Рабочий стол/project/entity.h
+
+/home/snumbrikvolgo/Рабочий стол/project/entity.h
+SFML/Graphics.hpp
+-
+
 /home/snumbrikvolgo/Рабочий стол/project/main.cpp
 iostream
 -
@@ -13,14 +35,18 @@ SFML/Graphics.hpp
 -
 sstream
 -
+entity.h
+/home/snumbrikvolgo/Рабочий стол/project/entity.h
 player.h
 /home/snumbrikvolgo/Рабочий стол/project/player.h
-mission.h
-/home/snumbrikvolgo/Рабочий стол/project/mission.h
-map.h
-/home/snumbrikvolgo/Рабочий стол/project/map.h
+enemy.h
+/home/snumbrikvolgo/Рабочий стол/project/enemy.h
 view.h
 /home/snumbrikvolgo/Рабочий стол/project/view.h
+list
+-
+mission.h
+/home/snumbrikvolgo/Рабочий стол/project/mission.h
 
 /home/snumbrikvolgo/Рабочий стол/project/map.h
 SFML/Graphics.hpp
@@ -32,9 +58,23 @@ string.h
 iostream
 -
 
+/home/snumbrikvolgo/Рабочий стол/project/player.cpp
+player.h
+/home/snumbrikvolgo/Рабочий стол/project/player.h
+iostream
+-
+SFML/Graphics.hpp
+-
+
 /home/snumbrikvolgo/Рабочий стол/project/player.h
 SFML/Graphics.hpp
 -
+map.h
+/home/snumbrikvolgo/Рабочий стол/project/map.h
+entity.h
+/home/snumbrikvolgo/Рабочий стол/project/entity.h
+view.h
+/home/snumbrikvolgo/Рабочий стол/project/view.h
 
 /home/snumbrikvolgo/Рабочий стол/project/view.h
 SFML/Graphics.hpp

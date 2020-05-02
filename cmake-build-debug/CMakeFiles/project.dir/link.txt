@@ -1,1 +1,1 @@
-/usr/bin/g++-7  -g   CMakeFiles/project.dir/main.cpp.o CMakeFiles/project.dir/player.cpp.o CMakeFiles/project.dir/entity.cpp.o  -o project -lsfml-graphics -lsfml-audio -lsfml-window -lsfml-system 
+/usr/bin/g++-7  -g   CMakeFiles/project.dir/main.cpp.o CMakeFiles/project.dir/player.cpp.o CMakeFiles/project.dir/entity.cpp.o CMakeFiles/project.dir/map.cpp.o CMakeFiles/project.dir/view.cpp.o CMakeFiles/project.dir/enemy.cpp.o  -o project -lsfml-graphics -lsfml-audio -lsfml-window -lsfml-system 

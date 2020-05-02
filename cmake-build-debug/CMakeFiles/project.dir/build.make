@@ -96,11 +96,53 @@ CMakeFiles/project.dir/entity.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/entity.cpp.s"
 	/usr/bin/g++-7 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/snumbrikvolgo/Рабочий стол/project/entity.cpp" -o CMakeFiles/project.dir/entity.cpp.s
 
+CMakeFiles/project.dir/map.cpp.o: CMakeFiles/project.dir/flags.make
+CMakeFiles/project.dir/map.cpp.o: ../map.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/snumbrikvolgo/Рабочий стол/project/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/project.dir/map.cpp.o"
+	/usr/bin/g++-7  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/map.cpp.o -c "/home/snumbrikvolgo/Рабочий стол/project/map.cpp"
+
+CMakeFiles/project.dir/map.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/map.cpp.i"
+	/usr/bin/g++-7 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/snumbrikvolgo/Рабочий стол/project/map.cpp" > CMakeFiles/project.dir/map.cpp.i
+
+CMakeFiles/project.dir/map.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/map.cpp.s"
+	/usr/bin/g++-7 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/snumbrikvolgo/Рабочий стол/project/map.cpp" -o CMakeFiles/project.dir/map.cpp.s
+
+CMakeFiles/project.dir/view.cpp.o: CMakeFiles/project.dir/flags.make
+CMakeFiles/project.dir/view.cpp.o: ../view.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/snumbrikvolgo/Рабочий стол/project/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/project.dir/view.cpp.o"
+	/usr/bin/g++-7  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/view.cpp.o -c "/home/snumbrikvolgo/Рабочий стол/project/view.cpp"
+
+CMakeFiles/project.dir/view.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/view.cpp.i"
+	/usr/bin/g++-7 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/snumbrikvolgo/Рабочий стол/project/view.cpp" > CMakeFiles/project.dir/view.cpp.i
+
+CMakeFiles/project.dir/view.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/view.cpp.s"
+	/usr/bin/g++-7 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/snumbrikvolgo/Рабочий стол/project/view.cpp" -o CMakeFiles/project.dir/view.cpp.s
+
+CMakeFiles/project.dir/enemy.cpp.o: CMakeFiles/project.dir/flags.make
+CMakeFiles/project.dir/enemy.cpp.o: ../enemy.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/snumbrikvolgo/Рабочий стол/project/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/project.dir/enemy.cpp.o"
+	/usr/bin/g++-7  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/project.dir/enemy.cpp.o -c "/home/snumbrikvolgo/Рабочий стол/project/enemy.cpp"
+
+CMakeFiles/project.dir/enemy.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/project.dir/enemy.cpp.i"
+	/usr/bin/g++-7 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/snumbrikvolgo/Рабочий стол/project/enemy.cpp" > CMakeFiles/project.dir/enemy.cpp.i
+
+CMakeFiles/project.dir/enemy.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/project.dir/enemy.cpp.s"
+	/usr/bin/g++-7 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/snumbrikvolgo/Рабочий стол/project/enemy.cpp" -o CMakeFiles/project.dir/enemy.cpp.s
+
 # Object files for target project
 project_OBJECTS = \
 "CMakeFiles/project.dir/main.cpp.o" \
 "CMakeFiles/project.dir/player.cpp.o" \
-"CMakeFiles/project.dir/entity.cpp.o"
+"CMakeFiles/project.dir/entity.cpp.o" \
+"CMakeFiles/project.dir/map.cpp.o" \
+"CMakeFiles/project.dir/view.cpp.o" \
+"CMakeFiles/project.dir/enemy.cpp.o"
 
 # External object files for target project
 project_EXTERNAL_OBJECTS =
@@ -108,9 +150,12 @@ project_EXTERNAL_OBJECTS =
 project: CMakeFiles/project.dir/main.cpp.o
 project: CMakeFiles/project.dir/player.cpp.o
 project: CMakeFiles/project.dir/entity.cpp.o
+project: CMakeFiles/project.dir/map.cpp.o
+project: CMakeFiles/project.dir/view.cpp.o
+project: CMakeFiles/project.dir/enemy.cpp.o
 project: CMakeFiles/project.dir/build.make
 project: CMakeFiles/project.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="/home/snumbrikvolgo/Рабочий стол/project/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable project"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="/home/snumbrikvolgo/Рабочий стол/project/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable project"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/project.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
