@@ -22,6 +22,8 @@ public:
     void update(float time, Map m);
     void update(float time);
     void death(float time);
+
+    void collision(Entity* enemy);
 };
 
 

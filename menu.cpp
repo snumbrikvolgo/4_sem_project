@@ -1,6 +1,6 @@
 #include "menu.h"
 
-void menu(RenderWindow & window) {
+int menu(RenderWindow & window) {
 
     Texture menuTexture1, menuTexture2, menuTexture3, aboutTexture, menuBackground;
 
@@ -41,6 +41,7 @@ void menu(RenderWindow & window) {
                 window.close();
                 music.stop();
                 isMenu = false;
+                return 1;
             }
 
         }

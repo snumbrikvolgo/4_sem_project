@@ -11,13 +11,43 @@
 #include "view.h"
 #include <list>
 
-
-bool Start()
-{
+void collisionDetection(std::list<Entity*>& entities, float time, Map map) {
     SoundBuffer roarBuffer;
     roarBuffer.loadFromFile("music/Tiger6.wav");
     Sound roar(roarBuffer);
 
+    std::list<Entity *>::iterator it;
+
+    for (it = entities.begin(); it != entities.end(); it++) {
+    {
+            if ((*it) -> name != "Player1")
+                if (!(*it)->life) {
+                    entities.erase(it);
+                    break;
+                }
+
+            {
+//                if ((*it)->name == "EasyEnemy")
+//                    (*it)->update(time);
+//                else (*it)->update(time, map);
+
+                for (auto jt = entities.begin(); jt != entities.end(); jt++) {
+                    if (!((*it)->life))
+                        break;
+                if ((*it)->getRect().intersects((*jt) -> getRect())) {
+
+                    (*it)->collision(*jt);
+                    (*jt)->collision(*it);
+                }
+                }
+
+            }
+        }
+    }
+}
+
+bool Start()
+{
     sf::String map_string[HEIGHT_MAP];
 
     for (int i=0; i<HEIGHT_MAP; ++i)
@@ -27,7 +57,6 @@ bool Start()
     screamBuffer.loadFromFile("music/Scream.wav");
     Sound scream(screamBuffer);
 
-
     Image easyEnemyImage;
     easyEnemyImage.loadFromFile("images/wolf.png");
     easyEnemyImage.createMaskFromColor(sf::Color::White);
@@ -35,20 +64,19 @@ bool Start()
     std::list<Entity*>  entities;
     std::list<Entity*>::iterator it;
 
-
     Font font;
     font.loadFromFile("fonts/CyrilicOld.TTF");
     Text text("", font, 100);
     text.setFillColor(Color::Black);
 
     Image heroImage;
-
     heroImage.loadFromFile("images/shrek.png");
     heroImage.createMaskFromColor(sf::Color::White);
 
     Player* p = new Player(heroImage, 750,200, 37, 62, "Player1");
     Enemy* easyEnemy = new Enemy(easyEnemyImage, 50, 680,42,40,"EasyEnemy");
     entities.push_back(easyEnemy);
+    entities.push_back(p);
 
 
     Clock clock;
@@ -59,7 +87,8 @@ bool Start()
 
     Map* map = new Map(map_string);
 
-    menu(window);
+    if(menu(window))
+        return false;
 
 
     while (window.isOpen())
@@ -67,11 +96,9 @@ bool Start()
 
         float time = clock.getElapsedTime().asMicroseconds();
 
-
         clock.restart();
         time = time/400;
-        if (time > 100)
-            time  = 60;
+        time = 100.0;
 
         if (Keyboard::isKeyPressed(Keyboard::Tab))
         {
@@ -98,7 +125,7 @@ bool Start()
 
             delete p;
             delete map;
-                return false;
+            return false;
         }
 
 
@@ -110,73 +137,18 @@ bool Start()
                 window.close();
 
         }
-
-
-        p -> update(time, *map);
-
-        for (it = entities.begin(); it != entities.end(); it++) { (*it)->update(time);}
+        p->update(time, *map);
+        collisionDetection(entities, time, *map);
 
         window.setView(view);
         window.clear(Color(128,106,89));
 
 
         map -> draw(window);
-
-
-        for (it = entities.begin(); it != entities.end(); it++)
-        {
-            if ((*it)->getRect().intersects(p -> getRect()))
-            {
-                if ((*it)->name == "EasyEnemy"){
-
-                    roar.play();
-
-
-                    std::cout << "(*it)->x" << (*it)->x << "\n";//коорд игрока
-                    std::cout << "p -> x" << p -> x << "\n\n";//коорд врага
-
-                    if (abs((p -> x - (*it) -> x)) < 20) {
-                        //p -> health -= 25;
-
-                        if ((*it)->dx>0)
-                       {
-                             (*it)->x = p -> x - p -> w;
-                       }
-
-                        if ((*it)->dx < 0)//если враг идет влево
-                        {
-                        (*it)->x = p -> x + p -> w; //аналогично - отталкиваем вправо
-                       }
-                        std::cout << "new (*it)->x" << (*it)->x << "\n";
-
-                    }
-
-                    else if (abs(p -> y+p -> dy -(*it) -> y) < 50 &&  abs(p -> x+p -> dx -(*it) -> x) < 70 && (!p -> onGround)) {
-                        (*it)->health = 0;
-                        p -> dy = -0.2;
-                    }
-                }
-            }
-        }
-
-        for (it = entities.begin(); it != entities.end();)
-        {
-            Entity *b = *it;
-            b->update(time);
-            if (b->life == false)	{ it = entities.erase(it); printf("enemy died\n");}
-            else it++;
-        }
-
-
-
         for (it = entities.begin(); it != entities.end(); it++){
             window.draw((*it)->sprite);
-        }
 
-        window.draw(p -> sprite);
-
-        if(!p -> life){
-
+            if(!p -> life){
             text.setString("YOU DIED\n");
             text.setPosition(p -> x-200,p -> y-50);
             window.draw(text);
@@ -202,6 +174,7 @@ bool Start()
 
     }
 
+}
 }
 
 

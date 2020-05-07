@@ -14,7 +14,13 @@ public:
     void update(float time);
 
     void control(float time);
+
+    void update(float time, Map map);
+
+    void collision(Entity* enemy);
     float moveTimer;
 };
+
+
 
 #endif //PROJECT_ENEMY_H

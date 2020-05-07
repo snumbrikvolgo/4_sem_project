@@ -35,9 +35,6 @@ Map::Map(sf::String str[])
     width = WIDTH_MAP;
     height = HEIGHT_MAP;
 
-
-
-
     background.loadFromFile("images/BG/BG.png");
     bg.setTexture(background);
     bg.setScale(1.9f,1.0f);

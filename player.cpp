@@ -138,5 +138,22 @@ void Player::update(float time, Map m)
     setPlayerCoordinateForView(x, y);
 
 
-    dy = dy + 0.0015*time;
+    dy = dy + 0.0007*time;
+}
+
+
+void Player::collision(Entity* enemy)
+{
+    if (enemy -> name == "EasyEnemy")
+    {
+        if (abs((x - (enemy)->x)) < 20 && onGround) {
+            printf("enemy x");
+            health -= 2;
+        }
+        if (abs(y  - enemy->y) < 100 && abs(x - enemy -> x) < 100 &&
+                 (!onGround)) {
+            dy = -0.2;
+        }
+    }
+
 }
