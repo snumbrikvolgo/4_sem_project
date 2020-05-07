@@ -11,17 +11,18 @@ const int TILE_SIZE = 32;
 
 
 extern sf::String TileMap[HEIGHT_MAP];
-
+extern sf::String CopyTileMap[HEIGHT_MAP];
 
 class Map {
 public:
 
-    Map();
+    Map(sf::String str[]);
     void draw (sf::RenderWindow &window);
 
     int getWidth()  { return width;};
     int getHeight() { return height;};
 
+    sf::String *  tiledMap;
 
 private:
     int width;
@@ -36,7 +37,6 @@ private:
     Texture mushroom;
     Sprite mush;
 
-    const sf::String *  tiledMap;
     int                 tileSize;
 };
 

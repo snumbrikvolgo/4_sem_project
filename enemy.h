@@ -13,6 +13,7 @@ public:
     void checkCollisionWithMap(float Dx, float Dy);
     void update(float time);
 
+    void control(float time);
     float moveTimer;
 };
 

@@ -14,20 +14,27 @@
 
 bool Start()
 {
-    SoundBuffer shootBuffer;//создаём буфер для звука
-    shootBuffer.loadFromFile("music/drive.wav");//загружаем в него звук
-    Sound shoot(shootBuffer);//создаем звук и загружаем в него звук из буфера
+    SoundBuffer roarBuffer;
+    roarBuffer.loadFromFile("music/Tiger6.wav");
+    Sound roar(roarBuffer);
 
-    Music music;//создаем объект музыки
-    music.openFromFile("music/shrek.ogg");//загружаем файл
-    //music.play();//воспроизводим музыку
+    sf::String map_string[HEIGHT_MAP];
+
+    for (int i=0; i<HEIGHT_MAP; ++i)
+        map_string[i] = TileMap[i];
+
+    SoundBuffer screamBuffer;
+    screamBuffer.loadFromFile("music/Scream.wav");
+    Sound scream(screamBuffer);
+
 
     Image easyEnemyImage;
-    easyEnemyImage.loadFromFile("images/shamaich.png");
-    easyEnemyImage.createMaskFromColor(Color(255, 0, 0));
+    easyEnemyImage.loadFromFile("images/wolf.png");
+    easyEnemyImage.createMaskFromColor(sf::Color::White);
 
-    std::list<Entity*>  entities;//создаю список, сюда буду кидать объекты.например врагов.
-    std::list<Entity*>::iterator it;//итератор чтобы проходить по эл-там списка
+    std::list<Entity*>  entities;
+    std::list<Entity*>::iterator it;
+
 
     Font font;
     font.loadFromFile("fonts/CyrilicOld.TTF");
@@ -37,30 +44,63 @@ bool Start()
     Image heroImage;
 
     heroImage.loadFromFile("images/shrek.png");
-    heroImage.createMaskFromColor(
-            sf::Color::White);
+    heroImage.createMaskFromColor(sf::Color::White);
 
-    Player p(heroImage, 750,200, 37, 62, "Player1");
-    Enemy easyEnemy(easyEnemyImage, 64, 600,200,97,"EasyEnemy");//простой враг, объект класса врага
-    entities.push_back(&easyEnemy);
+    Player* p = new Player(heroImage, 750,200, 37, 62, "Player1");
+    Enemy* easyEnemy = new Enemy(easyEnemyImage, 50, 680,42,40,"EasyEnemy");
+    entities.push_back(easyEnemy);
 
 
     Clock clock;
-    Clock gameTimeClock;
 
     RenderWindow window(sf::VideoMode(640, 480), "Shrek");
     view.reset(sf::FloatRect(0, 0, 640, 480));
 
-    Map map_grand;
-    menu(window);//вызов меню
+
+    Map* map = new Map(map_string);
+
+    menu(window);
+
 
     while (window.isOpen())
     {
 
         float time = clock.getElapsedTime().asMicroseconds();
 
-        if (Keyboard::isKeyPressed(Keyboard::Tab))    { return true; }
-        if (Keyboard::isKeyPressed(Keyboard::Escape)) { return false; }
+
+        clock.restart();
+        time = time/400;
+        if (time > 100)
+            time  = 60;
+
+        if (Keyboard::isKeyPressed(Keyboard::Tab))
+        {
+            for (it = entities.begin(); it != entities.end();)
+            {
+                Entity *b = *it;
+                { it = entities.erase(it); printf("enemy died in cause of destruction\n");}
+                it++;
+            }
+
+            delete p;
+            delete map;
+            return true;
+        }
+
+        if (Keyboard::isKeyPressed(Keyboard::Escape)) {
+
+            for (it = entities.begin(); it != entities.end();)
+            {
+                Entity *b = *it;
+                { it = entities.erase(it); printf("enemy died in cause of destruction\n");}
+                it++;
+            }
+
+            delete p;
+            delete map;
+                return false;
+        }
+
 
         sf::Event event;
 
@@ -71,10 +111,8 @@ bool Start()
 
         }
 
-        clock.restart();
-        time = time/400;
 
-        p.update(time);
+        p -> update(time, *map);
 
         for (it = entities.begin(); it != entities.end(); it++) { (*it)->update(time);}
 
@@ -82,39 +120,51 @@ bool Start()
         window.clear(Color(128,106,89));
 
 
-        map_grand.draw(window);
+        map -> draw(window);
 
 
-        for (it = entities.begin(); it != entities.end(); it++)//проходимся по эл-там списка
+        for (it = entities.begin(); it != entities.end(); it++)
         {
-            if ((*it)->getRect().intersects(p.getRect()))//если прямоугольник спрайта объекта пересекается с игроком
+            if ((*it)->getRect().intersects(p -> getRect()))
             {
-                if ((*it)->name == "EasyEnemy"){//и при этом имя объекта EasyEnemy,то..
-                    shoot.play();
-                    if ((*it)->dx>0)//если враг идет вправо
-                    {
-                        std::cout << "(*it)->x" << (*it)->x << "\n";//коорд игрока
-                        std::cout << "p.x" << p.x << "\n\n";//коорд врага
-                        (*it)->x = p.x - (*it)->w; //отталкиваем его от игрока влево (впритык)
-                        (*it)->dx = -1;//останавливаем
-                        std::cout << "new (*it)->x" << (*it)->x << "\n";//новая коорд врага
-                        std::cout << "new p.x" << p.x << "\n\n";//новая коорд игрока (останется прежней)
+                if ((*it)->name == "EasyEnemy"){
+
+                    roar.play();
+
+
+                    std::cout << "(*it)->x" << (*it)->x << "\n";//коорд игрока
+                    std::cout << "p -> x" << p -> x << "\n\n";//коорд врага
+
+                    if (abs((p -> x - (*it) -> x)) < 20) {
+                        //p -> health -= 25;
+
+                        if ((*it)->dx>0)
+                       {
+                             (*it)->x = p -> x - p -> w;
+                       }
+
+                        if ((*it)->dx < 0)//если враг идет влево
+                        {
+                        (*it)->x = p -> x + p -> w; //аналогично - отталкиваем вправо
+                       }
+                        std::cout << "new (*it)->x" << (*it)->x << "\n";
+
                     }
-                    if ((*it)->dx < 0)//если враг идет влево
-                    {
-                        (*it)->x = p.x + p.w; //аналогично - отталкиваем вправо
-                        (*it)->dx = 1;//останавливаем
+
+                    else if (abs(p -> y+p -> dy -(*it) -> y) < 50 &&  abs(p -> x+p -> dx -(*it) -> x) < 70 && (!p -> onGround)) {
+                        (*it)->health = 0;
+                        p -> dy = -0.2;
                     }
                 }
             }
         }
 
-        for (it = entities.begin(); it != entities.end();)//говорим что проходимся от начала до конца
+        for (it = entities.begin(); it != entities.end();)
         {
-            Entity *b = *it;//для удобства, чтобы не писать (*it)->
-            b->update(time);//вызываем ф-цию update для всех объектов (по сути для тех, кто жив)
-            if (b->life == false)	{ it = entities.erase(it); }// если этот объект мертв, то удаляем его
-            else it++;//и идем курсором (итератором) к след объекту. так делаем со всеми объектами списка
+            Entity *b = *it;
+            b->update(time);
+            if (b->life == false)	{ it = entities.erase(it); printf("enemy died\n");}
+            else it++;
         }
 
 
@@ -123,23 +173,35 @@ bool Start()
             window.draw((*it)->sprite);
         }
 
-        window.draw(p.sprite);
-        window.display();
+        window.draw(p -> sprite);
 
-        if(!p.life){
+        if(!p -> life){
+
             text.setString("YOU DIED\n");
-            text.setPosition(p.x+50,p.y+50);
+            text.setPosition(p -> x-200,p -> y-50);
             window.draw(text);
-            p.death(time);
+            p -> death(time);
 
-            if (p.currentFrame > 13)
+            if (p -> currentFrame > 13)
             {
                 window.clear();
-
+                for (it = entities.begin(); it != entities.end();)
+                {
+                    Entity *b = *it;
+                    { it = entities.erase(it); printf("enemy died in cause of destruction\n");}
+                    it++;
+                }
+                delete p;
+                delete map;
                 return true;       //view.rotate(1.0);
             }
         }
+
+        window.display();
+
+
     }
+
 }
 
 

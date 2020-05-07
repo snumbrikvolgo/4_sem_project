@@ -54,14 +54,15 @@ void Player::control(float time)
         sprite.setTextureRect(IntRect(195, 250, 37, 42));
     }
 }
-void Player::checkCollisionWithMap(float Dx, float Dy)
+void Player::checkCollisionWithMap(float Dx, float Dy, Map m)
 {
+    //printf("shrek по  в котроле мапа y %f\n", y);
     for (int i = y / 32; i < (y + h) / 32; i++)
         for (int j = x / 32; j<(x + w) / 32; j++)
         {
-            if (TileMap[i][j] == '0' || TileMap[i][j] == '1' || TileMap[i][j] == '2' ||
-                TileMap[i][j] == '3' || TileMap[i][j] == '4' || TileMap[i][j] == '5'
-                                                                || TileMap[i][j] == '6')
+            if (m.tiledMap[i][j] == '0' || m.tiledMap[i][j] == '1' || m.tiledMap[i][j] == '2' ||
+                m.tiledMap[i][j] == '3' || m.tiledMap[i][j] == '4' || m.tiledMap[i][j] == '5'
+                                                                || m.tiledMap[i][j] == '6')
             {
                 if (Dy>0)
                     { y = i * 32 - h;  dy = 0; onGround = true; }
@@ -73,16 +74,16 @@ void Player::checkCollisionWithMap(float Dx, float Dy)
                     { x = j * 32 + 32; }
             }
 
-            if (TileMap[i][j] == 'w' || TileMap[i][j] == 'c')
+            if (m.tiledMap[i][j] == 'w' || m.tiledMap[i][j] == 'c')
             {
                 speed = 0;
                 onGround = false;
                 health = 0;
             }
 
-            if (TileMap[i][j] == 'm')
+            if (m.tiledMap[i][j] == 'm')
             {
-                TileMap[i][j] = ' ';
+                m.tiledMap[i][j] = ' ';
                 score++;
                 //printf("score = %d\n", score);
             }
@@ -98,9 +99,17 @@ void Player::death(float time)
         sprite.setTextureRect(IntRect(36 * int(currentFrame) + 92, 447, 40, 50));
     sprite.setScale(1.0f, 1.0f);
 }
+void Player::update(float time){};
 
-void Player::update(float time)
+void Player::update(float time, Map m)
 {
+    if(!life) {
+        speed = 0;
+        dx = 0;
+        dy = 0;
+        return;
+    }
+
     control(time);
 
     switch (state)
@@ -113,10 +122,11 @@ void Player::update(float time)
     }
 
     x += dx*time;
-    checkCollisionWithMap(dx, 0);
+    checkCollisionWithMap(dx, 0, m);
 
+    //("time %f before 4th call dy %f\n", time, dy);
     y += dy*time;
-    checkCollisionWithMap(0, dy);
+    checkCollisionWithMap(0, dy, m);
 
     sprite.setPosition(x + w / 2, y + h /1.5 + 3);
 
@@ -127,11 +137,6 @@ void Player::update(float time)
 
     setPlayerCoordinateForView(x, y);
 
-    if(!life) {
-        speed = 0;
-        dx = 0;
-        dy = 0;
-        return;
-    }
+
     dy = dy + 0.0015*time;
 }

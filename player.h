@@ -18,7 +18,8 @@ public:
     int score;
 
     void control(float time);
-    void checkCollisionWithMap(float Dx, float Dy);
+    void checkCollisionWithMap(float Dx, float Dy, Map m);
+    void update(float time, Map m);
     void update(float time);
     void death(float time);
 };

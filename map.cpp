@@ -23,19 +23,20 @@ sf::String TileMap[HEIGHT_MAP] = {
         "0                 m2113                                    0",
         "0           211111110003                                   0",
         "0           000000000000                                   0",
-        "0          200000000000003    2113                 m       0",
-        "011111111110000000000000001111000001111111111111111111111110",
+        "0  m       200000000000003    2113                 m       0",
+        "0111111111100000000000000011w1000001111111111111111111111110",
         "000000000000000000000000000000000000000000000000000000000000"
 };
 
-Map::Map()
+Map::Map(sf::String str[])
 {
+    tileSize = TILE_SIZE;
+    tiledMap = str;
     width = WIDTH_MAP;
     height = HEIGHT_MAP;
 
 
-    tileSize = TILE_SIZE;
-    tiledMap = TileMap;
+
 
     background.loadFromFile("images/BG/BG.png");
     bg.setTexture(background);
@@ -92,16 +93,16 @@ void Map::draw(sf::RenderWindow &window)
                     sprite_.setTextureRect(sf::IntRect(TILE_SIZE * 3, TILE_SIZE, TILE_SIZE, TILE_SIZE));
                     break;
                 case '0': //boundaries
-                    sprite_.setTextureRect(sf::IntRect(TILE_SIZE*4, 0, TILE_SIZE, TILE_SIZE));
+                    sprite_.setTextureRect(sf::IntRect(TILE_SIZE * 4, 0, TILE_SIZE, TILE_SIZE));
                     break;
                 case '1': //top_surface
-                    sprite_.setTextureRect(sf::IntRect(TILE_SIZE*1, 0, TILE_SIZE, TILE_SIZE));
+                    sprite_.setTextureRect(sf::IntRect(TILE_SIZE * 1, 0, TILE_SIZE, TILE_SIZE));
                     break;
                 case '2': //top_surface
-                    sprite_.setTextureRect(sf::IntRect(TILE_SIZE*0, 0, TILE_SIZE, TILE_SIZE));
+                    sprite_.setTextureRect(sf::IntRect(TILE_SIZE * 0, 0, TILE_SIZE, TILE_SIZE));
                     break;
                 case '3': //top_surface
-                    sprite_.setTextureRect(sf::IntRect(TILE_SIZE*2, 0, TILE_SIZE, TILE_SIZE));
+                    sprite_.setTextureRect(sf::IntRect(TILE_SIZE * 2, 0, TILE_SIZE, TILE_SIZE));
                     break;
 
                 default:
