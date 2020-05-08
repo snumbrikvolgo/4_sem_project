@@ -1,5 +1,5 @@
-OBJ=player.o main.o 
-LIBS=-lsfml-graphics -lsfml-window -lsfml-system
+OBJ= Game.o view.o menu.o map.o entity.o enemy.o player.o main.o
+LIBS=-lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 CXXFLAGS += -std=c++11
 PROG=project
 CXX:=g++
