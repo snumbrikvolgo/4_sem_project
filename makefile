@@ -18,6 +18,5 @@ all:${PROG}
 ${PROG}:${OBJ}
 	${CXX} ${CXXFLAGS} ${OBJ} -o ${PROG} ${LIBS}
 
-
 clean:
-	$(RM) $(PROG)
+	$(RM) $(PROG) *.o

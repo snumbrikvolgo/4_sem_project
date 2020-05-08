@@ -3,7 +3,20 @@
 #include <SFML/Graphics.hpp>
 
 using namespace sf;
+void Player::collision(Entity* enemy){
+    if (enemy -> name == "EasyEnemy")
+    {
+        if (abs((x - (enemy)->x)) < 20 && onGround) {
+            printf("enemy x");
+            health -= 2;
+        }
+        if (abs(y  - enemy->y) < 100 && abs(x - enemy -> x) < 100 &&
+            (!onGround)) {
+            dy = -0.2;
+        }
+    }
 
+}
 Player::Player(Image &image, float X, float Y,int W,int H,String Name):Entity(image,X,Y,W,H,Name)
 {
     currentFrame = 0;

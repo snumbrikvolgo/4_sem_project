@@ -12,7 +12,19 @@ Enemy::Enemy(Image &image, float X, float Y,int W,int H,String Name):Entity(imag
     std::cout << "Enemy created" << " " << x << " " << " " << y << " " << " "<< w << h  << std::endl;
     }
 }
+void Enemy::collision(Entity* enemy){
+    if (enemy -> name == "EasyEnemy")
+        dx *= -1;
+    else if (enemy -> name == "Player1")
+    {
+        dx *= -1;
+        if (abs(y - enemy->y) < 50 && abs(x - enemy -> x) < 70 &&
+            !(enemy -> onGround)) {
 
+            health = 0;
+        }
+    }
+}
 void Enemy::checkCollisionWithMap(float Dx, float Dy)
 {
     printf("Enemy x %f\n" ,x);

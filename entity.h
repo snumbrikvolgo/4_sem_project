@@ -2,6 +2,8 @@
 #define PROJECT_ENTITY_H
 #pragma once
 
+#include "map.h"
+
 
 #include <SFML/Graphics.hpp>
 using namespace sf;
@@ -17,6 +19,8 @@ public:
 
     Entity(Image &image, float X, float Y,int W,int H,String Name);
     virtual void update(float time) = 0;
+    virtual void update(float time, Map map) = 0;
+    virtual void collision(Entity* enemy) = 0;
     FloatRect getRect();
 };
 #endif //PROJECT_ENTITY_H
