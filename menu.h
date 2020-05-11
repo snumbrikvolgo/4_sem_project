@@ -5,6 +5,6 @@
 
 using namespace sf;
 
-void menu(RenderWindow & window);
+bool menu(RenderWindow & window);
 
 #endif //PROJECT_MENU_H

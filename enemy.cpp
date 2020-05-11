@@ -9,7 +9,7 @@ Enemy::Enemy(Image &image, float X, float Y,int W,int H,String Name):Entity(imag
     moveTimer = 0;
     onGround = false;
 
-    std::cout << "Enemy created" << " " << x << " " << " " << y << " " << " "<< w << h  << std::endl;
+    //std::cout << "Enemy created" << " " << x << " " << " " << y << " " << " "<< w << h  << std::endl;
     }
 }
 void Enemy::collision(Entity* enemy){
@@ -27,35 +27,31 @@ void Enemy::collision(Entity* enemy){
 }
 void Enemy::checkCollisionWithMap(float Dx, float Dy)
 {
-    printf("Enemy x %f\n" ,x);
-    printf("Enemy y %f\n" ,y);
+//    printf("Enemy x %f\n" ,x);
+//    printf("Enemy y %f\n" ,y);
 
     float next_position_x = x + dx;
     int j = next_position_x / 32;
     int i = (y)/32;
 
-    printf("cur i j %d %d\n", i , j);
-    //printf("TIle %c\n", TileMap[i][j]);
+    if (TileMap[i][j] == ' ') {
+        //printf("wolf in the air\n");
 
-        printf("TIle %c\n", TileMap[i][j]);
-        if (TileMap[i][j] == ' ') {
-            printf("wolf in the air\n");
+        dy = 0.2;
+        y = i * 32;
+    }
 
-            dy = 0.2;
-            y = i * 32;
-        }
+    if (TileMap[i][j] == '1' || TileMap[i][j] == '2' ||
+        TileMap[i][j] == '3' || TileMap[i][j] == '4' || TileMap[i][j] == '5'
+        || TileMap[i][j] == '6')
 
-        if (TileMap[i][j] == '1' || TileMap[i][j] == '2' ||
-            TileMap[i][j] == '3' || TileMap[i][j] == '4' || TileMap[i][j] == '5'
-            || TileMap[i][j] == '6')
+    {
+        dx *= -1;
+    }
 
-        {
-            dx *= -1;
-        }
-
-        if (TileMap[i][j] == '0')
-        {
-            dx *= -1;
+    if (TileMap[i][j] == '0')
+    {
+        dx *= -1;
 //            if (Dy > 0) {
 //                //printf("hhuii\n");
 //                y = i * 32 - h - 100;
@@ -68,14 +64,14 @@ void Enemy::checkCollisionWithMap(float Dx, float Dy)
 //                if (Dx<0)
 //                { x = j * 32 + 32; }
 
-        }
+    }
 
-        if (TileMap[i][j] == 'w' || TileMap[i][j] == 'c')
-        {
-            speed = 0;
-            onGround = false;
-            health = 0;
-        }
+    if (TileMap[i][j] == 'w' || TileMap[i][j] == 'c')
+    {
+        speed = 0;
+        onGround = false;
+        health = 0;
+    }
 }
 
 void Enemy::control(float time)

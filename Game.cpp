@@ -11,7 +11,104 @@
 #include "view.h"
 #include <list>
 
-void collisionDetection(std::list<Entity*>& entities, float time, Map map)
+
+bool Start()
+{
+    sf::String map_string[HEIGHT_MAP];
+
+    for (int i=0; i<HEIGHT_MAP; ++i)
+        map_string[i] = TileMap[i];
+
+
+    RenderWindow window(sf::VideoMode(640, 480), "Shrek");
+    view.reset(sf::FloatRect(0, 0, 640, 480));
+
+    if (!menu(window))
+        return false;
+
+    SoundBuffer screamBuffer;
+    screamBuffer.loadFromFile("music/Scream.wav");
+    Sound scream(screamBuffer);
+
+    Image heroImage;
+    heroImage.loadFromFile("images/shrek.png");
+    heroImage.createMaskFromColor(sf::Color::White);
+
+    Player* p = new Player(heroImage, 750,200, 37, 62, "Player1");
+    Map* map = new Map(map_string);
+    Game* game = new Game(p, map);
+
+    while (window.isOpen())
+    {
+        sf::Event event;
+
+        while (window.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed)
+                window.close();
+
+        }
+
+        window.setView(view);
+        window.clear(Color(128,106,89));
+
+        if (game -> interaction(&window) == 1)
+            return true;
+
+        map -> draw(window);
+
+        auto it = game->entities.begin();
+
+        for (it = game -> entities.begin(); it != game -> entities.end(); it++){
+            window.draw((*it)->sprite);
+        }
+
+
+        if (Keyboard::isKeyPressed(Keyboard::Tab))
+        {
+           return true;
+        }
+
+        if (Keyboard::isKeyPressed(Keyboard::Escape))
+        {
+            return false;
+        }
+
+        if(!game -> life){
+            window.draw(game -> death_text);
+        }
+
+        window.display();
+
+    }
+}
+
+
+Game::Game(Player* p, Map* m)
+{
+    life = true;
+    player = p;
+    map = m;
+    entities.push_back(player);
+
+    font.loadFromFile("fonts/CyrilicOld.TTF");
+    death_text.setFillColor(Color::Black);
+    death_text.setFont(font);
+    death_text.setString("YOU DIED\n");
+    death_text.setCharacterSize(100);
+
+    roarBuffer.loadFromFile("music/Tiger6.wav");
+    roar.setBuffer(roarBuffer);
+
+
+    enemy_number = ENEMY_NUMBER;
+
+    easyEnemyImage.loadFromFile("images/wolf.png");
+    easyEnemyImage.createMaskFromColor(sf::Color::White);
+
+}
+
+void Game::collisionDetection(std::list<Entity *> &entities, float time, Map map)
 {
     std::list<Entity *>::iterator it;
 
@@ -33,189 +130,54 @@ void collisionDetection(std::list<Entity*>& entities, float time, Map map)
                 if (!((*it)->life))
                     break;
                 if ((*it)->getRect().intersects((*jt) -> getRect())) {
-
+                    roar.play();
                     (*it)->collision(*jt);
                     (*jt)->collision(*it);
-                 }
+                    roar.stop();
                 }
-
             }
+
+        }
 
     }
 }
 
-
-bool Start()
+int Game::interaction(sf::RenderWindow* window)
 {
-    SoundBuffer roarBuffer;
-    roarBuffer.loadFromFile("music/Tiger6.wav");
-    Sound roar(roarBuffer);
-
-    sf::String map_string[HEIGHT_MAP];
-
-    for (int i=0; i<HEIGHT_MAP; ++i)
-        map_string[i] = TileMap[i];
-
-    SoundBuffer screamBuffer;
-    screamBuffer.loadFromFile("music/Scream.wav");
-    Sound scream(screamBuffer);
+    time = clock.getElapsedTime().asMicroseconds();
+    clock.restart();
+    time /= 400;
+    if (time > 100)
+        time = 70;
 
 
-    Image easyEnemyImage;
-    easyEnemyImage.loadFromFile("images/wolf.png");
-    easyEnemyImage.createMaskFromColor(sf::Color::White);
-
-    std::list<Entity*>  entities;
-    std::list<Entity*>::iterator it;
-
-
-    Font font;
-    font.loadFromFile("fonts/CyrilicOld.TTF");
-    Text text("", font, 100);
-    text.setFillColor(Color::Black);
-
-    Image heroImage;
-
-    heroImage.loadFromFile("images/shrek.png");
-    heroImage.createMaskFromColor(sf::Color::White);
-
-    Player* p = new Player(heroImage, 750,200, 37, 62, "Player1");
-    Enemy* easyEnemy = new Enemy(easyEnemyImage, 50, 680,42,40,"EasyEnemy");
-    entities.push_back(easyEnemy);
-    entities.push_back(p);
-
-
-    Clock clock;
-
-    RenderWindow window(sf::VideoMode(640, 480), "Shrek");
-    view.reset(sf::FloatRect(0, 0, 640, 480));
-
-
-    Map* map = new Map(map_string);
-
-    menu(window);
-
-    while (window.isOpen())
+    if (enemy_number)
     {
-        float time = clock.getElapsedTime().asMicroseconds();
+        for (int i = 0; i < enemy_number; i++) {
+            entities.push_back(new Enemy(easyEnemyImage, 50, 680,42,40,"EasyEnemy"));
+        }
 
-        clock.restart();
-        time = time/400;
-        if (time > 100)
-            time  = 60;
+        enemy_number = 0;
+    }
 
-
-        if (Keyboard::isKeyPressed(Keyboard::Tab))
-        {
-            for (it = entities.begin(); it != entities.end();)
+    if (!player -> life)
+    {
+        life = false;
+        death_text.setPosition(player -> x - 200, player -> y - 50);
+        player -> death(time);
+            if (player -> currentFrame > 13)
             {
-                Entity *b = *it;
-                { it = entities.erase(it); printf("enemy died in cause of destruction\n");}
-                it++;
+                window -> clear();
+                return 1;
             }
-
-            delete p;
-            delete map;
-            return true;
-        }
-
-        if (Keyboard::isKeyPressed(Keyboard::Escape)) {
-
-            for (it = entities.begin(); it != entities.end();)
-            {
-                Entity *b = *it;
-                { it = entities.erase(it); printf("enemy died in cause of destruction\n");}
-                it++;
-            }
-
-            delete p;
-            delete map;
-            return false;
-        }
-
-
-        sf::Event event;
-
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-                window.close();
-
-        }
-
-        window.setView(view);
-        window.clear(Color(128,106,89));
-
-
-        map -> draw(window);
-        collisionDetection(entities, time, *map);
-
-
-//        for (it = entities.begin(); it != entities.end(); it++)
-//        {
-//            if ((*it)->getRect().intersects(p -> getRect()))
-//            {
-//                if ((*it)->name == "EasyEnemy"){
-//
-//                    roar.play();
-//
-//
-//                    std::cout << "(*it)->x" << (*it)->x << "\n";//коорд игрока
-//                    std::cout << "p -> x" << p -> x << "\n\n";//коорд врага
-//
-//                    std::cout << "(*it)->y" << (*it)->y << "\n";//коорд игрока
-//                    std::cout << "p -> y" << p -> y << "\n\n";//коорд врага
-//                    std::cout << "GROUND " << p -> onGround<< "\n\n";//коорд врага
-//
-//                    if (abs((p -> x - (*it) -> x)) < 20) {
-//                        p -> health -= 25;
-//
-//                        (*it) -> dx *= -1;
-//
-//                    }
-//
-//                    if (abs(p -> y+p -> dy -(*it) -> y) < 100 &&  abs(p -> x+p -> dx -(*it) -> x) < 100 && (!p -> onGround)) {
-//                        (*it)->health = 0;
-//                        p -> dy = -0.2;
-//                    }
-//                }
-//            }
-//        }
-
-
-        for (it = entities.begin(); it != entities.end(); it++){
-            window.draw((*it)->sprite);
-        }
-
-        if(!p -> life){
-
-            text.setString("YOU DIED\n");
-            text.setPosition(p -> x-200,p -> y-50);
-            window.draw(text);
-            p -> death(time);
-            if (p -> currentFrame > 13)
-            {
-                window.clear();
-                for (it = entities.begin(); it != entities.end();)
-                {
-                    Entity *b = *it;
-                    { it = entities.erase(it); printf("enemy died in cause of destruction\n");}
-                    it++;
-                }
-                delete p;
-                delete map;
-                return true;       //view.rotate(1.0);
-            }
-        }
-
-        window.display();
-
 
     }
 
+    collisionDetection(entities, time, *map);
+
+    return 0;
+
 }
-
-
 void gameRunning()
 {
     if (Start())

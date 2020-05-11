@@ -1,6 +1,6 @@
 #include "menu.h"
 
-void menu(RenderWindow & window) {
+bool menu(RenderWindow & window) {
 
     Texture menuTexture1, menuTexture2, menuTexture3, aboutTexture, menuBackground;
 
@@ -36,11 +36,15 @@ void menu(RenderWindow & window) {
 
         if (Mouse::isButtonPressed(Mouse::Left))
         {
-            if (menuNum == 1) isMenu = false;
+            if (menuNum == 1) {isMenu = false; return true; }
             if (menuNum == 3)  {
+                //printf("close\n");
                 window.close();
                 music.stop();
+
                 isMenu = false;
+                return false;
+
             }
 
         }

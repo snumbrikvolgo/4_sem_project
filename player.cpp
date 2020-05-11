@@ -3,11 +3,12 @@
 #include <SFML/Graphics.hpp>
 
 using namespace sf;
+
 void Player::collision(Entity* enemy){
     if (enemy -> name == "EasyEnemy")
     {
         if (abs((x - (enemy)->x)) < 20 && onGround) {
-            printf("enemy x");
+            //printf("enemy x");
             health -= 2;
         }
         if (abs(y  - enemy->y) < 100 && abs(x - enemy -> x) < 100 &&
@@ -69,7 +70,6 @@ void Player::control(float time)
 }
 void Player::checkCollisionWithMap(float Dx, float Dy, Map m)
 {
-    //printf("shrek по  в котроле мапа y %f\n", y);
     for (int i = y / 32; i < (y + h) / 32; i++)
         for (int j = x / 32; j<(x + w) / 32; j++)
         {
@@ -108,8 +108,7 @@ void Player::checkCollisionWithMap(float Dx, float Dy, Map m)
 void Player::death(float time)
 {
     currentFrame += 0.005 * time;
-    //if (currentFrame > 13) currentFrame -= 13;
-        sprite.setTextureRect(IntRect(36 * int(currentFrame) + 92, 447, 40, 50));
+    sprite.setTextureRect(IntRect(36 * int(currentFrame) + 92, 447, 40, 50));
     sprite.setScale(1.0f, 1.0f);
 }
 void Player::update(float time){};
@@ -137,7 +136,6 @@ void Player::update(float time, Map m)
     x += dx*time;
     checkCollisionWithMap(dx, 0, m);
 
-    //("time %f before 4th call dy %f\n", time, dy);
     y += dy*time;
     checkCollisionWithMap(0, dy, m);
 
