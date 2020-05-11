@@ -83,6 +83,26 @@ bool Start()
     }
 }
 
+int Game::mission_manager()
+{
+    if (mission != 1)
+        return 1;
+    else if (mission == 1)
+    {
+//        printf("I am in\n");
+//
+//        printf("score = %d\n", player -> score);
+        if (player -> score == 5)
+        {
+            if (player -> x < 100 && player -> y < 100) {
+                printf("you win\n");
+                mission++;
+                return 0;
+            }
+        }
+        return 0;
+    }
+}
 
 Game::Game(Player* p, Map* m)
 {
@@ -97,11 +117,14 @@ Game::Game(Player* p, Map* m)
     death_text.setString("YOU DIED\n");
     death_text.setCharacterSize(100);
 
+    mission = 1;
+
     roarBuffer.loadFromFile("music/Tiger6.wav");
     roar.setBuffer(roarBuffer);
 
 
-    enemy_number = ENEMY_NUMBER;
+    easy_enemy_number = EASY_ENEMY_NUMBER;
+    hard_enemy_number = HARD_ENEMY_NUMBER;
 
     easyEnemyImage.loadFromFile("images/wolf.png");
     easyEnemyImage.createMaskFromColor(sf::Color::White);
@@ -129,12 +152,16 @@ void Game::collisionDetection(std::list<Entity *> &entities, float time, Map map
             for (auto jt = entities.begin(); jt != entities.end(); jt++) {
                 if (!((*it)->life))
                     break;
-                if ((*it)->getRect().intersects((*jt) -> getRect())) {
-                    roar.play();
-                    (*it)->collision(*jt);
-                    (*jt)->collision(*it);
-                    roar.stop();
-                }
+
+                FloatRect opp_rect = (*jt) -> getRect();
+                FloatRect cur_rect = (*it)->getRect();
+
+                if (opp_rect != cur_rect)
+                    if (cur_rect.intersects(opp_rect)) {
+                        roar.play();
+                        (*it)->collision(*jt);
+                        (*jt)->collision(*it);
+                    }
             }
 
         }
@@ -150,14 +177,15 @@ int Game::interaction(sf::RenderWindow* window)
     if (time > 100)
         time = 70;
 
-
-    if (enemy_number)
+    if (mission_manager())
+        return 1;
+    if (easy_enemy_number)
     {
-        for (int i = 0; i < enemy_number; i++) {
+        for (int i = 0; i < easy_enemy_number; i++) {
             entities.push_back(new Enemy(easyEnemyImage, 50, 680,42,40,"EasyEnemy"));
         }
 
-        enemy_number = 0;
+        easy_enemy_number = 0;
     }
 
     if (!player -> life)

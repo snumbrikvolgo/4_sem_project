@@ -7,7 +7,7 @@ using namespace sf;
 void Player::collision(Entity* enemy){
     if (enemy -> name == "EasyEnemy")
     {
-        if (abs((x - (enemy)->x)) < 20 && onGround) {
+        if (abs((x - (enemy)->x)) < 50 && onGround) {
             //printf("enemy x");
             health -= 2;
         }
@@ -33,19 +33,16 @@ void Player::control(float time)
     if (Keyboard::isKeyPressed(Keyboard::Left)) {
         state = left;
         speed = -0.1;
-        currentFrame += 0.005*time;
-        if (currentFrame > 3) currentFrame -= 3;
-            sprite.setTextureRect(IntRect(43 * int(currentFrame)+79, 68, 43, 50));
+        play_animation(4, 79, 50, 43, 68, 1, time);
+        sprite.move(0.1 * time, 0);
         sprite.setScale(-1.0f, 1.0f);
     }
 
     if (Keyboard::isKeyPressed(Keyboard::Right)) {
         state = right;
         speed = 0.1;
-        currentFrame += 0.005 * time;
-        if (currentFrame > 4) currentFrame -= 4;
-        sprite.setTextureRect(IntRect(43 * int(currentFrame) + 79, 68, 43, 50));
-        sprite.move(0.1 * time, 0);
+        play_animation(4, 79, 50, 43, 68, 1, time);
+        sprite.move(0.1 * time, 0);;
         sprite.setScale(1.0f, 1.0f);
     }
 
@@ -53,10 +50,8 @@ void Player::control(float time)
         state = jump;
         dy = -0.8;
         onGround = false;
-        currentFrame += 0.005 * time;
-        if (currentFrame > 4) currentFrame -= 4;
-        sprite.setTextureRect(IntRect(36 * int(currentFrame) + 98, 130, 36, 50));
         sprite.move(0, -0.1 * time);
+        play_animation(4, 98, 50, 36, 130, 1, time);
         sprite.setScale(1.0f, 1.0f);
     }
 
@@ -68,8 +63,10 @@ void Player::control(float time)
         sprite.setTextureRect(IntRect(195, 250, 37, 42));
     }
 }
+
 void Player::checkCollisionWithMap(float Dx, float Dy, Map m)
 {
+
     for (int i = y / 32; i < (y + h) / 32; i++)
         for (int j = x / 32; j<(x + w) / 32; j++)
         {
@@ -98,7 +95,6 @@ void Player::checkCollisionWithMap(float Dx, float Dy, Map m)
             {
                 m.tiledMap[i][j] = ' ';
                 score++;
-                //printf("score = %d\n", score);
             }
 
 
@@ -107,9 +103,7 @@ void Player::checkCollisionWithMap(float Dx, float Dy, Map m)
 
 void Player::death(float time)
 {
-    currentFrame += 0.005 * time;
-    sprite.setTextureRect(IntRect(36 * int(currentFrame) + 92, 447, 40, 50));
-    sprite.setScale(1.0f, 1.0f);
+    play_animation(13, 92, 50, 40, 447, 0, time);
 }
 void Player::update(float time){};
 
@@ -147,7 +141,5 @@ void Player::update(float time, Map m)
          speed = 0;
 
     setPlayerCoordinateForView(x, y);
-
-
     dy = dy + 0.0015*time;
 }

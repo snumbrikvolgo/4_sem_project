@@ -15,10 +15,11 @@ Enemy::Enemy(Image &image, float X, float Y,int W,int H,String Name):Entity(imag
 void Enemy::collision(Entity* enemy){
     if (enemy -> name == "EasyEnemy")
         dx *= -1;
+
     else if (enemy -> name == "Player1")
     {
         dx *= -1;
-        if (abs(y - enemy->y) < 50 && abs(x - enemy -> x) < 70 &&
+        if (abs(y - enemy->y) < 100 && abs(x - enemy -> x) < 70 &&
             !(enemy -> onGround)) {
 
             health = 0;
@@ -77,19 +78,14 @@ void Enemy::checkCollisionWithMap(float Dx, float Dy)
 void Enemy::control(float time)
 {
     if (dx < 0) {
-        //speed = -0.1;
-        currentFrame += 0.005 * time;
-        if (currentFrame > 3) currentFrame -= 3;
-        sprite.setTextureRect(IntRect(42 * int(currentFrame), 0, 42, 40));
         sprite.move(0, 0.1 * time);
+        play_animation(3, 0, 40, 42, 0, 1, time);
         sprite.setScale(-1.0f, 1.0f);
     }
 
     if (dx > 0) {
-        currentFrame += 0.005 * time;
-        if (currentFrame > 3) currentFrame -= 3;
-        sprite.setTextureRect(IntRect(42 * int(currentFrame), 0, 42, 40));
         sprite.move(0.1 * time, 0);
+        play_animation(3, 0, 40, 42, 0, 1, time);
         sprite.setScale(1.0f, 1.0f);
     }
 

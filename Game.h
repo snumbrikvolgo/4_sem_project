@@ -7,8 +7,8 @@
 #include "player.h"
 #include <SFML/Audio.hpp>
 
-#define ENEMY_NUMBER 1
-
+#define EASY_ENEMY_NUMBER 1
+#define HARD_ENEMY_NUMBER 1
 
 class Game {
 public:
@@ -17,15 +17,19 @@ public:
     Game(Player* p, Map* m);
     void collisionDetection(std::list<Entity*>& entities, float time, Map map);
     int interaction(sf::RenderWindow* window);
+    int mission_manager();
     Map* map;
     sf::Text        death_text;
 
-
+    int mission;
 private:
 
     Player* player;
     float time;
-    int enemy_number;
+
+    int easy_enemy_number;
+    int hard_enemy_number;
+
     sf::Clock clock;
     sf::Font        font;
     sf::Text        health_text;
@@ -40,6 +44,5 @@ private:
 
 bool Start();
 void gameRunning();
-//void collisionDetection(std::list<Entity*>& entities, float time, Map map);
 
 #endif //PROJECT_GAME_H

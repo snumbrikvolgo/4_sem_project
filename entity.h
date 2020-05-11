@@ -22,5 +22,6 @@ public:
     virtual void update(float time, Map map) = 0;
     virtual void collision(Entity* enemy) = 0;
     FloatRect getRect();
+    void play_animation(int num, int shift, int height, int width, int down, int cycle, float time);
 };
 #endif //PROJECT_ENTITY_H
