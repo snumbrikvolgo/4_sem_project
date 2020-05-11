@@ -5,15 +5,15 @@ sf::String TileMap[HEIGHT_MAP] = {
         "000000000000000000000000000000000000000000000000000000000000",
         "0                                                          0",
         "0                                                          0",
-        "0                                                          0",
+        "0    b                                                     0",
         "05555556                            4556                   0",
         "0                             4556                         0",
-        "0                                                          0",
+        "0                                                       b  0",
         "0        m                                           4555550",
         "0       4555556                                            0",
         "0                                                          0",
         "0                 4556                                     0",
-        "0                                                          0",
+        "0                               b                          0",
         "0                             45556                        0",
         "0                         m                                0",
         "0                      4556                                0",
@@ -23,8 +23,8 @@ sf::String TileMap[HEIGHT_MAP] = {
         "0                 m2113                                    0",
         "0           211111110003                                   0",
         "0           000000000000                                   0",
-        "0  m       200000000000003    2113                 m       0",
-        "0111111111100000000000000011w1000001111111111111111111111110",
+        "0  m    b  200000000000003    2113             b   m       0",
+        "011111111110000000000000001111000001111111111111111111111110",
         "000000000000000000000000000000000000000000000000000000000000"
 };
 
@@ -45,6 +45,9 @@ Map::Map(sf::String str[])
     mushroom.loadFromFile("images/mush.png");
     mush.setTexture(mushroom);
 
+    bushground.loadFromFile("images/Object/Bush (4).png");
+    bush.setTexture(bushground);
+
     map_texture.loadFromFile("images/map3_1.png");
     sprite_.setTexture(map_texture);
 
@@ -60,11 +63,17 @@ void Map::draw(sf::RenderWindow &window)
             sprite_.setPosition(i * tileSize, j * tileSize);
             mush.setTextureRect(sf::IntRect(/*i * tileSize_*/ 0, /*j * tileSize_*/ 0, 0, 0));
             mush.setPosition(i * tileSize, j * tileSize);
+
+            bush.setTextureRect(sf::IntRect(/*i * tileSize_*/ 0, /*j * tileSize_*/ 0, 0, 0));
+            bush.setPosition(i * tileSize, j * tileSize);
             window.draw(sprite_);
             window.draw(mush);
+            window.draw(bush);
 
             switch(tiledMap[j][i])
             {
+                case 'b':
+                    bush.setTextureRect(sf::IntRect(0, 0, 73, 46));
                 case ' ':
                     sprite_.setTextureRect(sf::IntRect(0, 0, 0, 0));
                     break;
@@ -109,6 +118,7 @@ void Map::draw(sf::RenderWindow &window)
                     break;
             }
             window.draw(mush);
+            window.draw(bush);
             window.draw(sprite_);
         }
 }

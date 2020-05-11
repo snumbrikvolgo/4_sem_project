@@ -1,29 +1,28 @@
+#include "HardEnemy.h"
 #include "enemy.h"
 #include "map.h"
 #include <iostream>
+#include <math.h>
 
-Enemy::Enemy(Image &image, float X, float Y,int W,int H,String Name):Entity(image,X,Y,W,H,Name)
+HardEnemy::HardEnemy(Image &image, float X, float Y,int W,int H,String Name):Entity(image,X,Y,W,H,Name)
 {
-    if (name == "EasyEnemy"){
-        sprite.setTextureRect(IntRect(0, 0, w, h));
-        dx = 0.025;
-        moveTimer = 0;
-        onGround = false;
-
-    }
-
-    else if (name == "HardEnemy")
+   if (name == "HardEnemy")
     {
-        printf("creating\n");
         sprite.setTextureRect(IntRect(0, 0, 33, 47));
         dx = 0;
         moveTimer = 0;
         onGround = false;
         //sprite.setScale(2.0f, 2.0f);
+        is_near = true;
+        visible = false;
+
+        start_x = X;
+        start_y = Y;
     }
 
 }
-void Enemy::collision(Entity* enemy){
+void HardEnemy::collision(Entity* enemy){
+
     if (enemy -> name == "EasyEnemy" || enemy -> name == "HardEnemy")
         dx *= -1;
 
@@ -37,7 +36,7 @@ void Enemy::collision(Entity* enemy){
         }
     }
 }
-void Enemy::checkCollisionWithMap(float Dx, float Dy)
+void HardEnemy::checkCollisionWithMap(float Dx, float Dy)
 {
 //    printf("Enemy x %f\n" ,x);
 //    printf("Enemy y %f\n" ,y);
@@ -86,7 +85,7 @@ void Enemy::checkCollisionWithMap(float Dx, float Dy)
     }
 }
 
-void Enemy::control(float time)
+void HardEnemy::control(float time)
 {
     if (dx < 0) {
         sprite.move(0, 0.1 * time);
@@ -102,37 +101,15 @@ void Enemy::control(float time)
 
 }
 
-void Enemy::update(float time)
+void HardEnemy::update(float time)
 {
-    if (name == "EasyEnemy"){
-
-        control(time);
-        moveTimer += time;
-
-        if (moveTimer > 8000)
-        {
-            dx *= -1;
-            moveTimer = 0;
-        }
-
-        checkCollisionWithMap(dx, 0);
-        x += dx*time;
-
-        checkCollisionWithMap(0, dy);
-
-
-        sprite.setPosition(x + w/2 , y + h / 2);
-
-        if (health <= 0)
-        {
-            dx = 0;
-            dy = 0;
-            speed = 0;
-            life = false;
-        }
-    }
-    else if (name == "HardEnemy")
+  if (name == "HardEnemy")
     {
+      if(!visible)
+      {
+          sprite.setTextureRect(IntRect(0,0,0,0));
+      }
+
         control(time);
         moveTimer += time;
 
@@ -158,5 +135,23 @@ void Enemy::update(float time)
             life = false;
         }
 
+    }
+}
+bool HardEnemy::shrek_near(Entity* shrek)
+{
+    if (shrek -> name == "Player1")
+    {
+        float dist = sqrt((shrek -> x - x)*(shrek -> x - x) + (shrek -> y - y)*(shrek -> y - y));
+        if (dist < 200) {
+
+            is_near = true;
+            visible = true;
+            if (shrek -> x - x > 0)
+                dx = 0.01;
+            else dx = -0.01;
+
+            return true;
+        } else
+            return false;
     }
 }

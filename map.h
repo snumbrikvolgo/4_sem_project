@@ -34,6 +34,9 @@ private:
     Texture background;
     Sprite bg;
 
+    Texture bushground;
+    Sprite bush;
+
     Texture mushroom;
     Sprite mush;
 

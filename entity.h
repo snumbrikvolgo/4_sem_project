@@ -23,5 +23,6 @@ public:
     virtual void collision(Entity* enemy) = 0;
     FloatRect getRect();
     void play_animation(int num, int shift, int height, int width, int down, int cycle, float time);
+    virtual bool shrek_near(Entity* shrek);
 };
 #endif //PROJECT_ENTITY_H

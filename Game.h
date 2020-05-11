@@ -35,6 +35,8 @@ private:
     sf::Text        health_text;
 
     Image easyEnemyImage;
+    Image hardEnemyImage;
+
     SoundBuffer roarBuffer;
     Sound roar;
 

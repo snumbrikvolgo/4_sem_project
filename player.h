@@ -23,6 +23,7 @@ public:
     void update(float time);
     void death(float time);
     void collision(Entity* enemy);
+    bool shrek_near(Entity* shrek){};
 };
 
 

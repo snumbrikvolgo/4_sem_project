@@ -17,6 +17,7 @@ public:
 
     void control(float time);
     float moveTimer;
+    bool shrek_near(Entity* shrek){};
 };
 
 #endif //PROJECT_ENEMY_H

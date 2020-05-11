@@ -2,7 +2,7 @@
 #include "entity.h"
 
 using namespace sf;
-
+bool Entity::shrek_near(Entity* shrek){}
 Entity::Entity(Image &image, float X, float Y,int W,int H,String Name){
 
     currentFrame = 0;

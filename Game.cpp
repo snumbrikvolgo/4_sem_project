@@ -9,6 +9,7 @@
 #include "player.h"
 #include "enemy.h"
 #include "view.h"
+#include "HardEnemy.h"
 #include <list>
 
 
@@ -34,7 +35,7 @@ bool Start()
     heroImage.loadFromFile("images/shrek.png");
     heroImage.createMaskFromColor(sf::Color::White);
 
-    Player* p = new Player(heroImage, 750,200, 37, 62, "Player1");
+    Player* p = new Player(heroImage, 1100,680, 37, 62, "Player1");
     Map* map = new Map(map_string);
     Game* game = new Game(p, map);
 
@@ -129,6 +130,8 @@ Game::Game(Player* p, Map* m)
     easyEnemyImage.loadFromFile("images/wolf.png");
     easyEnemyImage.createMaskFromColor(sf::Color::White);
 
+    hardEnemyImage.loadFromFile("images/farq.png");
+    hardEnemyImage.createMaskFromColor(sf::Color::White);
 }
 
 void Game::collisionDetection(std::list<Entity *> &entities, float time, Map map)
@@ -144,7 +147,7 @@ void Game::collisionDetection(std::list<Entity *> &entities, float time, Map map
                 }
 
 
-            if ((*it)->name == "EasyEnemy")
+            if ((*it)->name != "Player1")
                 (*it)->update(time);
 
             else (*it)->update(time, map);
@@ -156,12 +159,14 @@ void Game::collisionDetection(std::list<Entity *> &entities, float time, Map map
                 FloatRect opp_rect = (*jt) -> getRect();
                 FloatRect cur_rect = (*it)->getRect();
 
-                if (opp_rect != cur_rect)
+                if (opp_rect != cur_rect) {
+                    if ((*it) -> name == "HardEnemy") (*it) -> shrek_near(*jt);
                     if (cur_rect.intersects(opp_rect)) {
                         roar.play();
                         (*it)->collision(*jt);
                         (*jt)->collision(*it);
                     }
+                }
             }
 
         }
@@ -188,6 +193,14 @@ int Game::interaction(sf::RenderWindow* window)
         easy_enemy_number = 0;
     }
 
+    if (hard_enemy_number)
+    {
+        for (int i = 0; i < hard_enemy_number; i++) {
+            entities.push_back(new HardEnemy(hardEnemyImage, 1500, 680,42,40,"HardEnemy"));
+        }
+
+        hard_enemy_number = 0;
+    }
     if (!player -> life)
     {
         life = false;
