@@ -1,6 +1,7 @@
 #ifndef PROJECT_PLAYER_H
 #define PROJECT_PLAYER_H
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #pragma once
 #include "map.h"
 #include "entity.h"
@@ -16,6 +17,7 @@ public:
     Player(Image &image, float X, float Y,int W,int H,String Name);
 
     int score;
+    bool stone;
 
     void control(float time);
     void checkCollisionWithMap(float Dx, float Dy, Map m);
@@ -24,6 +26,9 @@ public:
     void death(float time);
     void collision(Entity* enemy);
     bool shrek_near(Entity* shrek){};
+
+    sf::SoundBuffer screamBuffer;
+    sf::Sound scream;
 };
 
 

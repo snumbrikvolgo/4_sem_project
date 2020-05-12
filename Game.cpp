@@ -11,7 +11,7 @@
 #include "view.h"
 #include "HardEnemy.h"
 #include <list>
-
+#include <stdlib.h>
 
 bool Start()
 {
@@ -26,10 +26,6 @@ bool Start()
 
     if (!menu(window))
         return false;
-
-    SoundBuffer screamBuffer;
-    screamBuffer.loadFromFile("music/Scream.wav");
-    Sound scream(screamBuffer);
 
     Image heroImage;
     heroImage.loadFromFile("images/shrek.png");
@@ -64,6 +60,7 @@ bool Start()
             window.draw((*it)->sprite);
         }
 
+        window.draw(game -> health_text);
 
         if (Keyboard::isKeyPressed(Keyboard::Tab))
         {
@@ -90,10 +87,18 @@ int Game::mission_manager()
         return 1;
     else if (mission == 1)
     {
-//        printf("I am in\n");
-//
-//        printf("score = %d\n", player -> score);
-        if (player -> score == 5)
+        if (player -> stone)
+        {
+            map -> tiledMap[8][8] = '4';
+            map -> tiledMap[8][9] = '5';
+            map -> tiledMap[8][10] = '5';
+            map -> tiledMap[8][11] = '5';
+            map -> tiledMap[8][12] = '5';
+            map -> tiledMap[8][13] = '6';
+            player -> stone = false;
+        }
+
+        if (player -> score == 6)
         {
             if (player -> x < 100 && player -> y < 100) {
                 printf("you win\n");
@@ -118,11 +123,11 @@ Game::Game(Player* p, Map* m)
     death_text.setString("YOU DIED\n");
     death_text.setCharacterSize(100);
 
+    health_text.setFillColor(Color::Black);
+    health_text.setFont(font);
+    health_text.setCharacterSize(30);
+
     mission = 1;
-
-    roarBuffer.loadFromFile("music/Tiger6.wav");
-    roar.setBuffer(roarBuffer);
-
 
     easy_enemy_number = EASY_ENEMY_NUMBER;
     hard_enemy_number = HARD_ENEMY_NUMBER;
@@ -146,7 +151,6 @@ void Game::collisionDetection(std::list<Entity *> &entities, float time, Map map
                     break;
                 }
 
-
             if ((*it)->name != "Player1")
                 (*it)->update(time);
 
@@ -162,7 +166,7 @@ void Game::collisionDetection(std::list<Entity *> &entities, float time, Map map
                 if (opp_rect != cur_rect) {
                     if ((*it) -> name == "HardEnemy") (*it) -> shrek_near(*jt);
                     if (cur_rect.intersects(opp_rect)) {
-                        roar.play();
+
                         (*it)->collision(*jt);
                         (*jt)->collision(*it);
                     }
@@ -213,8 +217,12 @@ int Game::interaction(sf::RenderWindow* window)
             }
 
     }
-
     collisionDetection(entities, time, *map);
+
+    std::ostringstream health;
+    health << player -> health << " Mushs: ";
+    health_text.setString("Health:" + health.str() + std::to_string(player -> score) + " " + "/6");
+    health_text.setPosition(sf::Vector2f(view.getCenter().x-300, view.getCenter().y - 250));
 
     return 0;
 

@@ -10,10 +10,10 @@ sf::String TileMap[HEIGHT_MAP] = {
         "0                             4556                         0",
         "0                                                       b  0",
         "0        m                                           4555550",
-        "0       4555556                                            0",
+        "0                                                          0",
         "0                                                          0",
         "0                 4556                                     0",
-        "0                               b                          0",
+        "0                              s b                         0",
         "0                             45556                        0",
         "0                         m                                0",
         "0                      4556                                0",
@@ -23,7 +23,7 @@ sf::String TileMap[HEIGHT_MAP] = {
         "0                 m2113                                    0",
         "0           211111110003                                   0",
         "0           000000000000                                   0",
-        "0  m    b  200000000000003    2113             b   m       0",
+        "0  m    b  200000000000013    2113      m      b   m       0",
         "011111111110000000000000001111000001111111111111111111111110",
         "000000000000000000000000000000000000000000000000000000000000"
 };
@@ -35,10 +35,12 @@ Map::Map(sf::String str[])
     width = WIDTH_MAP;
     height = HEIGHT_MAP;
 
-
+    stoneisland.loadFromFile("images/Object/Stone.png");
+    stone.setTexture(stoneisland);
 
 
     background.loadFromFile("images/BG/BG.png");
+
     bg.setTexture(background);
     bg.setScale(1.9f,1.0f);
 
@@ -61,17 +63,26 @@ void Map::draw(sf::RenderWindow &window)
         {
             sprite_.setTextureRect(sf::IntRect(/*i * tileSize_*/ 0, /*j * tileSize_*/ 0, 0, 0));
             sprite_.setPosition(i * tileSize, j * tileSize);
+
             mush.setTextureRect(sf::IntRect(/*i * tileSize_*/ 0, /*j * tileSize_*/ 0, 0, 0));
             mush.setPosition(i * tileSize, j * tileSize);
 
             bush.setTextureRect(sf::IntRect(/*i * tileSize_*/ 0, /*j * tileSize_*/ 0, 0, 0));
             bush.setPosition(i * tileSize, j * tileSize);
+
+            stone.setTextureRect(sf::IntRect(/*i * tileSize_*/ 0, /*j * tileSize_*/ 0, 0, 0));
+            stone.setPosition(i * tileSize, j * tileSize);
+
             window.draw(sprite_);
             window.draw(mush);
             window.draw(bush);
+            window.draw(stone);
 
             switch(tiledMap[j][i])
             {
+                case 's':
+                    stone.setTextureRect(sf::IntRect(0, 0, 90, 54 ));
+
                 case 'b':
                     bush.setTextureRect(sf::IntRect(0, 0, 73, 46));
                 case ' ':
@@ -80,7 +91,7 @@ void Map::draw(sf::RenderWindow &window)
                 case 'm':
                     mush.setTextureRect(sf::IntRect(0, 0, TILE_SIZE, TILE_SIZE - 1));
                     break;
-                case 's':
+                case 'q':
                     sprite_.setTextureRect(sf::IntRect(TILE_SIZE * 2, 0, TILE_SIZE, TILE_SIZE));
                     break;
                 case 'r':
@@ -120,5 +131,6 @@ void Map::draw(sf::RenderWindow &window)
             window.draw(mush);
             window.draw(bush);
             window.draw(sprite_);
+            window.draw(stone);
         }
 }

@@ -37,6 +37,9 @@ private:
     Texture bushground;
     Sprite bush;
 
+    Texture stoneisland;
+    Sprite stone;
+
     Texture mushroom;
     Sprite mush;
 

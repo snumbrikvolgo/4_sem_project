@@ -20,6 +20,7 @@ public:
     int mission_manager();
     Map* map;
     sf::Text        death_text;
+    sf::Text        health_text;
 
     int mission;
 private:
@@ -32,13 +33,12 @@ private:
 
     sf::Clock clock;
     sf::Font        font;
-    sf::Text        health_text;
+
 
     Image easyEnemyImage;
     Image hardEnemyImage;
 
-    SoundBuffer roarBuffer;
-    Sound roar;
+
 
 
 

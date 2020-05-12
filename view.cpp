@@ -13,6 +13,7 @@ void setPlayerCoordinateForView(float x,float y) {
     if (y > 554) tempY = 554;//нижнюю сторону
 
     view.setCenter(tempX, tempY); //следим за игроком, передавая его координаты.
+    //view.setViewport(sf::FloatRect(0,0.05,1,1));
 
 
 }

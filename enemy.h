@@ -6,6 +6,7 @@
 #define PROJECT_ENEMY_H
 
 #include "entity.h"
+#include <SFML/Audio.hpp>
 
 class Enemy :public Entity{
 public:
@@ -18,6 +19,9 @@ public:
     void control(float time);
     float moveTimer;
     bool shrek_near(Entity* shrek){};
+
+    sf::SoundBuffer roarBuffer;
+    sf::Sound roar;
 };
 
 #endif //PROJECT_ENEMY_H
