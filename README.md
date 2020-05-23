@@ -4,9 +4,9 @@
 Shrek is love, Shrek is life <3
 
 Brand-new ShReK GaYm
-You are Shrkek, who is collecting some mushhhhrooms spread all over the map. U can jump very high, probably vecause you are high from mushroooms. 
+You are Shrek, who is collecting some mushrooms spread all over the map. 
 
-But some of them are quarded by noisy-roary wolf (it is stupid actually) and annoying Maskot, who jumps out of the bushes like a pervert. Thanks Goodness, you can smack their skulls by jumping on them
+But some of them are quarded by noisy-roary wolf (it is stupid actually) and annoying Maskot, who jumps out of the bushes like a pervert. Thanks Goodness, you can smack their skulls by jumping on them. Do not jump near the ravens! They will bother you. Maybe, you will find out the way to get rid of them (press X to win)
 
 WASD console, Tab for restart, Esc for quitting
 
