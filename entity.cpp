@@ -3,8 +3,9 @@
 
 using namespace sf;
 bool Entity::shrek_near(Entity* shrek){}
-Entity::Entity(Image &image, float X, float Y,int W,int H,String Name){
 
+Entity::Entity(Image &image, float X, float Y,int W,int H,String Name)
+{
     currentFrame = 0;
     x = X;
     y = Y;
@@ -16,6 +17,12 @@ Entity::Entity(Image &image, float X, float Y,int W,int H,String Name){
     texture.loadFromImage(image);
     sprite.setTexture(texture);
     sprite.setOrigin(w / 2, h / 2);
+}
+Entity::~Entity()
+{
+    life = false;
+    texture.~Texture();
+    sprite.~Sprite();
 }
 
 FloatRect Entity::getRect(){
@@ -29,9 +36,5 @@ void Entity::play_animation(int num, int shift, int height, int width, int down,
         if (currentFrame > num) currentFrame -= num;
 
     }
-
     sprite.setTextureRect(IntRect(width * int(currentFrame) + shift, down , width, height));
-    //sprite.move(0, 0.1 * time);
-
-
 }

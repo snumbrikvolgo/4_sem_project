@@ -15,6 +15,7 @@ public:
 
 
     Player(Image &image, float X, float Y,int W,int H,String Name);
+    ~Player();
 
     int score;
     bool stone;
@@ -26,6 +27,10 @@ public:
     void death(float time);
     void collision(Entity* enemy);
     bool shrek_near(Entity* shrek){};
+
+
+    sf::SoundBuffer fusBuffer;
+    sf::Sound fus;
 
     sf::SoundBuffer screamBuffer;
     sf::Sound scream;

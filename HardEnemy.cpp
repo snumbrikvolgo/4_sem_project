@@ -12,7 +12,6 @@ HardEnemy::HardEnemy(Image &image, float X, float Y,int W,int H,String Name):Ent
         dx = 0;
         moveTimer = 0;
         onGround = false;
-        //sprite.setScale(2.0f, 2.0f);
         is_near = true;
         visible = false;
 
@@ -23,10 +22,17 @@ HardEnemy::HardEnemy(Image &image, float X, float Y,int W,int H,String Name):Ent
 }
 void HardEnemy::collision(Entity* enemy)
 {
-    if (enemy -> name == "EasyEnemy" || enemy -> name == "HardEnemy") {
-        if (dx > 0)
-            x -= w / 2;
-        else x += w / 2;
+    if (enemy -> name == "EasyEnemy" || enemy -> name == "HardEnemy" || enemy -> name == "Raven")
+    {
+        if (dx * (enemy -> dx) > 0)
+        {
+            //dx = 0;
+        }
+        else {
+            if (dx > 0)
+                x -= w / 2;
+            else x += w / 2;
+        }
     }
     else if (enemy -> name == "Player1")
     {
@@ -43,16 +49,13 @@ void HardEnemy::collision(Entity* enemy)
 }
 void HardEnemy::checkCollisionWithMap(float Dx, float Dy)
 {
-//    printf("Enemy x %f\n" ,x);
-//    printf("Enemy y %f\n" ,y);
-
     float next_position_x = x + dx;
     int j = next_position_x / 32;
     int i = (y)/32;
 
     if (TileMap[i][j] =='0' && TileMap[i-1][j] == '0')
     {
-        printf("near double 0\n");
+        //printf("near double 0\n");
         dx *= -1;
         dy = 0.2;
         y = i * 32 - 32;
@@ -60,13 +63,14 @@ void HardEnemy::checkCollisionWithMap(float Dx, float Dy)
 
     else if (TileMap[i][j] == ' ' && TileMap[i+1][j] == ' ')
     {
-        printf("near empty\n");
+        //printf("near empty\n");
         y = i * 32 + 32;
         dy = 0.2;
     }
 
-    else if (TileMap[i][j] == ' ' || TileMap[i][j] == 'm') {
-        //printf("In the air\n");
+    else if (TileMap[i][j] == ' ' || TileMap[i][j] == 'm')
+    {
+
         if (Dy < 0)
         {
             y = i * 32 + 32;  dy = 0.2;
@@ -77,9 +81,9 @@ void HardEnemy::checkCollisionWithMap(float Dx, float Dy)
         }
 
     }
-    else if (TileMap[i][j] == 'b') {
+    else if (TileMap[i][j] == 'b')
+    {
 
-        //printf("next bush\n");
         dy = 0.2;
         y = i * 32;
     }
@@ -89,33 +93,24 @@ void HardEnemy::checkCollisionWithMap(float Dx, float Dy)
         || TileMap[i][j] == '6'||TileMap[i][j] == '0')
 
     {
-        printf("next ground\n");
+        //printf("next ground\n");
         dy = 0.2;
         y = i * 32 - 32;
-        //onGround = false;
-        //dx *= -1;
     }
 
     else if (TileMap[i][j] == '0')
     {
         dx *= -1;
         dy = 0.2;
-        printf("next '0\n");
 
     }
 
-//    if (TileMap[i][j] == 'w' || TileMap[i][j] == 'c')
-//    {
-//        speed = 0;
-//        onGround = false;
-//        health = 0;
-//    }
 }
 
 void HardEnemy::control(float time)
 {
     if (dx < 0) {
-        sprite.move(0, 0.1 * time);
+        sprite.move(0.1 * time, 0);
         play_animation(3, 0, 48, 33, 0, 1, time);
         sprite.setScale(-1.0f, 1.0f);
     }
@@ -143,8 +138,6 @@ void HardEnemy::update(float time)
 
         checkCollisionWithMap(dx, 0);
         x += dx*time;
-//        printf("farq y %f\n", y);
-//        printf("farq dy %f\n", dy);
         y += dy*time;
 
         checkCollisionWithMap(0, dy);

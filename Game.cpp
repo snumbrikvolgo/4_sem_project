@@ -12,6 +12,7 @@
 #include "HardEnemy.h"
 #include <list>
 #include <stdlib.h>
+#include "FlyingEnemy.h"
 
 bool Start()
 {
@@ -24,8 +25,10 @@ bool Start()
     RenderWindow window(sf::VideoMode(640, 480), "Shrek");
     view.reset(sf::FloatRect(0, 0, 640, 480));
 
-    if (!menu(window))
+    if (!menu(window)) {
+
         return false;
+    }
 
     Image heroImage;
     heroImage.loadFromFile("images/shrek.png");
@@ -49,8 +52,13 @@ bool Start()
         window.setView(view);
         window.clear(Color(128,106,89));
 
-        if (game -> interaction(&window) == 1)
+        if (game -> interaction(&window) == 1) {
+            delete p;
+            delete map;
+            delete game;
+
             return true;
+        }
 
         map -> draw(window);
 
@@ -64,7 +72,7 @@ bool Start()
 
         if (Keyboard::isKeyPressed(Keyboard::Tab))
         {
-           return true;
+            return true;
         }
 
         if (Keyboard::isKeyPressed(Keyboard::Escape))
@@ -89,16 +97,16 @@ int Game::mission_manager()
     {
         if (player -> stone)
         {
-            map -> tiledMap[8][8] = '4';
-            map -> tiledMap[8][9] = '5';
+            map -> tiledMap[8][9] = '4';
             map -> tiledMap[8][10] = '5';
             map -> tiledMap[8][11] = '5';
             map -> tiledMap[8][12] = '5';
-            map -> tiledMap[8][13] = '6';
+            map -> tiledMap[8][13] = '5';
+            map -> tiledMap[8][14] = '6';
             player -> stone = false;
         }
 
-        if (player -> score == 6)
+        if (player -> score == 7)
         {
             if (player -> x < 100 && player -> y < 100) {
                 printf("you win\n");
@@ -125,18 +133,29 @@ Game::Game(Player* p, Map* m)
 
     health_text.setFillColor(Color::Black);
     health_text.setFont(font);
-    health_text.setCharacterSize(30);
+    health_text.setCharacterSize(20);
 
     mission = 1;
 
     easy_enemy_number = EASY_ENEMY_NUMBER;
     hard_enemy_number = HARD_ENEMY_NUMBER;
+    flying_enemy_number = FLYING_ENEMY_NUMBER;
 
     easyEnemyImage.loadFromFile("images/wolf.png");
     easyEnemyImage.createMaskFromColor(sf::Color::White);
 
+    flyingEnemyImage.loadFromFile("images/claw.png");
+    flyingEnemyImage.createMaskFromColor(sf::Color::White);
+
     hardEnemyImage.loadFromFile("images/farq.png");
     hardEnemyImage.createMaskFromColor(sf::Color::White);
+}
+
+Game::~Game()
+{
+    map = nullptr;
+    entities.clear();
+
 }
 
 void Game::collisionDetection(std::list<Entity *> &entities, float time, Map map)
@@ -165,6 +184,7 @@ void Game::collisionDetection(std::list<Entity *> &entities, float time, Map map
 
                 if (opp_rect != cur_rect) {
                     if ((*it) -> name == "HardEnemy") (*it) -> shrek_near(*jt);
+                    if ((*it) -> name == "Raven") (*it) -> shrek_near(*jt);
                     if (cur_rect.intersects(opp_rect)) {
 
                         (*it)->collision(*jt);
@@ -205,6 +225,16 @@ int Game::interaction(sf::RenderWindow* window)
 
         hard_enemy_number = 0;
     }
+
+    if (flying_enemy_number)
+    {
+        for (int i = 0; i < flying_enemy_number; i++) {
+            entities.push_back(new Raven(flyingEnemyImage, 1000, 200,35,60,"Raven"));
+        }
+
+        flying_enemy_number = 0;
+    }
+
     if (!player -> life)
     {
         life = false;
@@ -221,8 +251,8 @@ int Game::interaction(sf::RenderWindow* window)
 
     std::ostringstream health;
     health << player -> health << " Mushs: ";
-    health_text.setString("Health:" + health.str() + std::to_string(player -> score) + " " + "/6");
-    health_text.setPosition(sf::Vector2f(view.getCenter().x-300, view.getCenter().y - 250));
+    health_text.setString("Health:" + health.str() + std::to_string(player -> score) + " " + "/7");
+    health_text.setPosition(sf::Vector2f(view.getCenter().x-300, view.getCenter().y - 230));
 
     return 0;
 

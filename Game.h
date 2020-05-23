@@ -9,12 +9,14 @@
 
 #define EASY_ENEMY_NUMBER 1
 #define HARD_ENEMY_NUMBER 1
+#define FLYING_ENEMY_NUMBER 1
 
 class Game {
 public:
     bool life;
     std::list<Entity*> entities;
     Game(Player* p, Map* m);
+    ~Game();
     void collisionDetection(std::list<Entity*>& entities, float time, Map map);
     int interaction(sf::RenderWindow* window);
     int mission_manager();
@@ -30,6 +32,7 @@ private:
 
     int easy_enemy_number;
     int hard_enemy_number;
+    int flying_enemy_number;
 
     sf::Clock clock;
     sf::Font        font;
@@ -37,11 +40,7 @@ private:
 
     Image easyEnemyImage;
     Image hardEnemyImage;
-
-
-
-
-
+    Image flyingEnemyImage;
 };
 
 bool Start();

@@ -8,24 +8,40 @@ using namespace sf;
 void Player::collision(Entity* enemy){
     if (enemy -> name == "EasyEnemy" )
     {
-        if (abs((x - (enemy)->x)) < 50 && onGround) {
-            health -= 0;
-        }
-        if (abs(y  - enemy->y) < 100 && abs(x - enemy -> x) < 100 &&
+        if ((y  - enemy->y) < 100 && abs(x - enemy -> x) < (enemy -> w + w)/2 &&
             (!onGround)) {
             dy = -0.2;
         }
+
+        if (abs((x - (enemy)->x)) < 50 && onGround) {
+            health -= 5;
+        }
+
     }
     else if (enemy -> name == "HardEnemy")
     {
-        if (abs((x - (enemy)->x)) < 50 && onGround) {
-            health -= 0;
-        }
-
         if (abs(y  - enemy->y) < 100 && abs(x - enemy -> x) < 50 &&
             (!onGround)) {
             dy = -0.2;
         }
+
+        if (abs((x - (enemy)->x)) < 50 && onGround) {
+            health -= 10;
+        }
+    }
+    else if (enemy -> name == "Raven")
+    {
+        //printf("raven\n");
+        if (enemy -> y == y)
+            dx *= 0.8;
+        else dy *=0.8;
+
+        if (Keyboard::isKeyPressed(Keyboard::X)) {
+            fus.play();
+            dx *= 1.25;
+            dy *= 1.25;
+        }
+
     }
 
 }
@@ -38,12 +54,18 @@ Player::Player(Image &image, float X, float Y,int W,int H,String Name):Entity(im
         sprite.setTextureRect(IntRect(43, 0, w, h));
     }
 
-    screamBuffer.loadFromFile("music/Scream.wav");
+    screamBuffer.loadFromFile("music/fus.wav");
     scream.setBuffer(screamBuffer);
+
+    fusBuffer.loadFromFile("music/fus.wav");
+    fus.setBuffer(fusBuffer);
 
     stone = false;
 }
-
+Player::~Player()
+{
+    health = 0;
+}
 void Player::control(float time)
 {
     if (Keyboard::isKeyPressed(Keyboard::Left)) {
@@ -82,7 +104,6 @@ void Player::control(float time)
 
 void Player::checkCollisionWithMap(float Dx, float Dy, Map m)
 {
-
     for (int i = y / 32; i < (y + h) / 32; i++)
         for (int j = x / 32; j<(x + w) / 32; j++)
         {
@@ -165,5 +186,8 @@ void Player::update(float time, Map m)
          speed = 0;
 
     setPlayerCoordinateForView(x, y);
+
     dy = dy + 0.0015*time;
+    if (dy > 1)
+        dy = 1;
 }

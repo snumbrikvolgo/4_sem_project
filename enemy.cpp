@@ -9,19 +9,27 @@ Enemy::Enemy(Image &image, float X, float Y,int W,int H,String Name):Entity(imag
         dx = 0.025;
         moveTimer = 0;
         onGround = false;
-
     }
 
     roarBuffer.loadFromFile("music/Tiger6.wav");
     roar.setBuffer(roarBuffer);
 
 }
+Enemy::~Enemy()
+{}
+
 void Enemy::collision(Entity* enemy){
-    if (enemy -> name == "EasyEnemy" || enemy -> name == "HardEnemy")
+    if (enemy -> name == "EasyEnemy" || enemy -> name == "HardEnemy" || enemy -> name == "Raven")
     {
-        if (dx > 0)
-            x -= w / 2;
-        else x += w / 2;
+        if (dx * (enemy -> dx) > 0)
+        {
+            dx *= -1;
+        }
+        else {
+            if (dx > 0)
+                x -= w / 2;
+            else x += w / 2;
+        }
     }
     else if (enemy -> name == "Player1")
     {
@@ -30,16 +38,15 @@ void Enemy::collision(Entity* enemy){
             x -= w/2;
         else x +=w/2;
 
-        if (abs(y - enemy->y) < 100 && abs(x - enemy -> x) < 70 &&
+        if ((y - enemy->y) < 100 && abs(x - enemy -> x) < (enemy -> w + w)/2 &&
             !(enemy -> onGround)) {
-
             health = 0;
         }
     }
 }
 void Enemy::checkCollisionWithMap(float Dx, float Dy)
 {
-    float next_position_x = x + dx;
+    float next_position_x = x + Dx;
     int j = next_position_x / 32;
     int i = (y)/32;
 
@@ -47,13 +54,21 @@ void Enemy::checkCollisionWithMap(float Dx, float Dy)
         dy = 0.2;
         y = i * 32;
     }
+
     else if (TileMap[i][j] == '1' || TileMap[i][j] == '2' ||
         TileMap[i][j] == '3' || TileMap[i][j] == '4' || TileMap[i][j] == '5'
         || TileMap[i][j] == '6' || TileMap[i][j] == '0')
     {
-        if (next_position_x  >  x + 20)
+        if (TileMap[i][j -1] == ' ')
+        {
+            //printf("left free\n");
             x = j*32 - 64;
-        else x = j*32 + 32;
+        }
+        else if(TileMap[i][j + 1] == ' ')
+        {
+            //printf("right free\n");
+            x = j*32 + 64;
+        }
         dx *= -1;
     }
 
@@ -84,7 +99,6 @@ void Enemy::control(float time)
 void Enemy::update(float time)
 {
     if (name == "EasyEnemy"){
-
         control(time);
         moveTimer += time;
 
@@ -96,10 +110,6 @@ void Enemy::update(float time)
 
         checkCollisionWithMap(dx, 0);
         x += dx*time;
-
-        checkCollisionWithMap(0, dy);
-
-
         sprite.setPosition(x + w/2 , y + h / 2);
 
         if (health <= 0)
