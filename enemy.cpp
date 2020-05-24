@@ -40,7 +40,7 @@ void Enemy::collision(Entity* enemy){
 
         if ((y - enemy->y) < 100 && abs(x - enemy -> x) < (enemy -> w + w)/2 &&
             !(enemy -> onGround)) {
-            health = 0;
+            health -= 5;
         }
     }
 }

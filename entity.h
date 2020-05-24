@@ -3,7 +3,7 @@
 #pragma once
 #include "map.h"
 #include <SFML/Graphics.hpp>
-
+#include "health.h"
 using namespace sf;
 class Entity {
 public:
@@ -14,6 +14,7 @@ public:
     Sprite sprite;
     String name;
     float currentFrame;
+    Health* hp;
 
     Entity(Image &image, float X, float Y,int W,int H,String Name);
     virtual ~Entity();

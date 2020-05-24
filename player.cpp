@@ -26,7 +26,7 @@ void Player::collision(Entity* enemy){
         }
 
         if (abs((x - (enemy)->x)) < 50 && onGround) {
-            health -= 10;
+            health -= 0 ;
         }
     }
     else if (enemy -> name == "Raven")

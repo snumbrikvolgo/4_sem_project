@@ -6,6 +6,7 @@ bool Entity::shrek_near(Entity* shrek){}
 
 Entity::Entity(Image &image, float X, float Y,int W,int H,String Name)
 {
+
     currentFrame = 0;
     x = X;
     y = Y;
@@ -14,9 +15,11 @@ Entity::Entity(Image &image, float X, float Y,int W,int H,String Name)
     name = Name;
     speed = 0; health = 100; dx = 0; dy = 0;
     life = true; onGround = false; isMove = false;
+
     texture.loadFromImage(image);
     sprite.setTexture(texture);
     sprite.setOrigin(w / 2, h / 2);
+    hp = new Health(100);
 }
 Entity::~Entity()
 {

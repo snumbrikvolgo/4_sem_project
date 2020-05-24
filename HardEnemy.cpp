@@ -43,7 +43,7 @@ void HardEnemy::collision(Entity* enemy)
         if (abs(y - enemy->y) < 100 && abs(x - enemy -> x) < 70 &&
             !(enemy -> onGround)) {
 
-            health = 0;
+            health -= 20;
         }
     }
 }

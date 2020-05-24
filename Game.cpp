@@ -66,6 +66,7 @@ bool Start()
 
         for (it = game -> entities.begin(); it != game -> entities.end(); it++){
             window.draw((*it)->sprite);
+            window.draw((*it) -> hp -> bar);
         }
 
         window.draw(game -> health_text);
@@ -171,9 +172,14 @@ void Game::collisionDetection(std::list<Entity *> &entities, float time, Map map
                 }
 
             if ((*it)->name != "Player1")
+            {
                 (*it)->update(time);
+                (*it) -> hp -> update((*it) -> health, (*it) -> x, (*it) -> y - (*it) -> h);
+            }
 
-            else (*it)->update(time, map);
+            else {
+                (*it)->update(time, map);
+            }
 
             for (auto jt = entities.begin(); jt != entities.end(); jt++) {
                 if (!((*it)->life))

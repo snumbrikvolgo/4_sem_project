@@ -1,7 +1,6 @@
 #ifndef PROJECT_HARDENEMY_H
 #define PROJECT_HARDENEMY_H
 #include "entity.h"
-
 class HardEnemy :public Entity{
 public:
     HardEnemy(Image &image, float X, float Y,int W,int H,String Name);
