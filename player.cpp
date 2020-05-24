@@ -189,5 +189,5 @@ void Player::update(float time, Map m)
 
     dy = dy + 0.0015*time;
     if (dy > 1)
-        dy = 1;
+        dy = 0.5;
 }
